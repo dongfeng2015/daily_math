@@ -150,7 +150,7 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 ## 9. Owner decisions
 
 1. ~~Set size~~ — **decided 2026-10-10:** 5 problems a day, 7 on Saturdays, random bonus puzzle on ~30% of other days.
-2. **Name.** Keep "Back of the Envelope"?
+2. ~~Name~~ — **decided 2026-10-12:** keep "Back of the Envelope" (after "back-of-the-envelope calculation": quick math on a scrap of paper). Idea parked: an occasional Fermi-style "estimate it" bonus that accepts answers within 10%.
 3. ~~Hosting~~ — **decided 2026-10-12:** Cloudflare Workers (static assets) deployed from GitHub. Chosen for free static hosting with commercial use allowed and a path to server-checked answers (Workers), leaderboards (D1) and live battles (Durable Objects) on one platform.
 4. **Domain.**
 5. **Analytics** vendor (privacy-friendly, no cookies preferred).
