@@ -246,7 +246,7 @@ function parseAnswer(raw){
 const isRight=(p,x)=>Math.abs(x-p.answer.value)<=p.answer.tol;
 const MAX_TRIES=2;
 const triesOf=a=>a.tries||1;
-const markOf=a=>!a.correct?'no':(triesOf(a)>1?'two':'ok');
+const markOf=a=>a.correct?'ok':'no';  // a second-try solve counts the same as a first-try one (often just a typo)
 const squareOf=a=>({ok:'🟩',two:'🟨',no:'🟥'})[markOf(a)];
 const HINT={money:'Dollars and cents, like 12.50',int:'A whole number',dec:'A number; decimals are fine',frac:'A fraction like 3/8 or 1 1/2, or a decimal',pct:'A percent, like 12.5'};
 
