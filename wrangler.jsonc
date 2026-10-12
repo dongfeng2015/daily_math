@@ -1,0 +1,10 @@
+// Cloudflare Workers config. The site is static: everything in ./app is served as-is.
+// Workers Builds (GitHub integration) runs `npx wrangler deploy` on every push to main.
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "daily-math",
+  "compatibility_date": "2026-10-09",
+  "assets": {
+    "directory": "./app"
+  }
+}

@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Five real-world math problems a day, seven on Saturdays. Type your answers, share your score, argue about the solutions until tomorrow.">
+<meta property="og:title" content="Back of the Envelope">
+<meta property="og:description" content="Five real-world math problems a day. Can you beat my score?">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#E8ECF1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#10141B" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='14' width='56' height='38' rx='5' fill='%231F3FA6'/%3E%3Cpath d='M6 18 L32 36 L58 18' fill='none' stroke='white' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E">
+<title>Back of the Envelope</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one narrow column like a letter. Airmail-striped envelope card, a postmark for the date, stamps for progress,
+   graph-paper scratch pad under each problem, a sealed flap for solutions that open tomorrow. */
+:root{
+  --bg:#E8ECF1; --paper:#FFFFFF; --ink:#1B2230; --muted:#5B6576; --line:#D2D9E3; --grid:#E4E9F0;
+  --blue:#1F3FA6; --on-blue:#FFFFFF; --red:#C8372D; --gold:#9A6A00; --gold-bg:#FBF1D6;
+  --good:#1D7448; --good-bg:#E2F2E9; --bad:#A12E28; --bad-bg:#FBE6E3;
+  --f-display:'Bricolage Grotesque','Avenir Next','Segoe UI',system-ui,sans-serif;
+  --f-body:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;
+  --f-num:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10141B; --paper:#192029; --ink:#E6EAF1; --muted:#9AA4B4; --line:#2C3441; --grid:#222A35;
+  --blue:#8FA7FF; --on-blue:#0E1320; --red:#FF7C6F; --gold:#F2C14E; --gold-bg:#33290F;
+  --good:#5CCB8F; --good-bg:#142E20; --bad:#FF8C80; --bad-bg:#3A1C1A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10141B; --paper:#192029; --ink:#E6EAF1; --muted:#9AA4B4; --line:#2C3441; --grid:#222A35;
+  --blue:#8FA7FF; --on-blue:#0E1320; --red:#FF7C6F; --gold:#F2C14E; --gold-bg:#33290F;
+  --good:#5CCB8F; --good-bg:#142E20; --bad:#FF8C80; --bad-bg:#3A1C1A; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--bg)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:680px;margin:0 auto;padding-inline:16px;padding-block:28px 56px;display:flex;flex-direction:column;gap:20px}
+
+header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.7rem,6vw,2.4rem);line-height:1;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.brand p{margin:.4rem 0 0;color:var(--muted);font-size:.95rem}
+.postmark{flex:none;width:96px;height:96px;border-radius:50%;border:2px solid var(--blue);color:var(--blue);
+  display:grid;place-content:center;text-align:center;transform:rotate(-9deg);font-family:var(--f-num);line-height:1.05;
+  box-shadow:inset 0 0 0 4px var(--bg),inset 0 0 0 5px var(--blue)}
+.postmark .lbl{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase}
+.postmark .no{font-family:var(--f-display);font-weight:800;font-size:1.7rem;margin:.1rem 0}
+
+.envelope{background:var(--paper);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.envelope::before{content:"";display:block;height:10px;
+  background:repeating-linear-gradient(-45deg,var(--red) 0 14px,var(--paper) 14px 22px,var(--blue) 22px 36px,var(--paper) 36px 44px)}
+.inner{padding:22px clamp(16px,4vw,32px) 28px;display:flex;flex-direction:column;gap:18px}
+
+.eyebrow{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h2{font-family:var(--f-display);font-weight:800;font-size:1.6rem;line-height:1.1;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:800;font-size:1.15rem;margin:0}
+p{margin:0}
+.muted{color:var(--muted)}
+.stack{display:flex;flex-direction:column;gap:10px}
+
+.lineup{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.lineup li{display:grid;grid-template-columns:2rem 6.5rem 1fr;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line)}
+.lineup .n{font-family:var(--f-num);color:var(--blue);font-weight:600}
+.lineup .tier{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lineup li.bonus .n{color:var(--gold)}
+
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button,.btn{font:inherit;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:6px;padding:12px 20px;font-weight:700;background:var(--blue);color:var(--on-blue);text-decoration:none}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--blue);border:1.5px solid var(--line)}
+.btn.ghost:hover{border-color:var(--blue)}
+.btn.small{padding:6px 12px;font-size:.85rem}
+.btn[disabled]{opacity:.45;cursor:default;filter:none}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+.stamps{display:flex;gap:8px;flex-wrap:wrap}
+.stamp{width:30px;height:34px;border:2px dotted var(--line);border-radius:3px;display:grid;place-items:center;
+  font-family:var(--f-num);font-size:.8rem;color:var(--muted);flex:none}
+.stamp.cur{border:2px solid var(--blue);color:var(--blue)}
+.stamp.ok{border:2px solid var(--good);background:var(--good-bg);color:var(--good)}
+.stamp.no{border:2px solid var(--bad);background:var(--bad-bg);color:var(--bad)}
+.stamp.star{border:2px solid var(--gold);background:var(--gold-bg);color:var(--gold)}
+
+.meta{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.timer{font-family:var(--f-num);font-variant-numeric:tabular-nums;font-size:1.05rem;color:var(--muted)}
+.question{font-size:clamp(1.08rem,3.4vw,1.22rem);line-height:1.55;max-width:62ch}
+.ask{font-size:clamp(1.08rem,3.4vw,1.22rem);line-height:1.5;font-weight:700;max-width:62ch}
+
+.tbl{overflow-x:auto;max-width:100%}
+.tbl table{border-collapse:collapse;font-variant-numeric:tabular-nums;min-width:min(100%,320px)}
+.tbl th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 14px 6px 0;border-bottom:2px solid var(--line)}
+.tbl td{font-family:var(--f-num);font-size:.95rem;padding:7px 14px 7px 0;border-bottom:1px solid var(--line)}
+.tbl td:first-child{font-family:var(--f-body)}
+
+form.answer{display:flex;flex-direction:column;gap:6px}
+form.answer label{font-weight:700;font-size:.9rem}
+.field{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.inputbox{flex:1 1 220px;min-width:0;display:flex;align-items:center;gap:6px;border:2px solid var(--line);border-radius:6px;padding:0 12px;background:var(--paper)}
+.inputbox:focus-within{border-color:var(--blue)}
+.inputbox input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font-family:var(--f-num);font-size:1.4rem;padding:10px 0;font-variant-numeric:tabular-nums}
+.affix{font-family:var(--f-num);color:var(--muted);font-size:1.05rem;white-space:nowrap}
+.hint{font-size:.85rem;color:var(--muted)}
+.err{font-size:.9rem;color:var(--bad);min-height:1.2em}
+
+.result{border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.result.ok{background:var(--good-bg)}
+.result.no{background:var(--bad-bg)}
+.result .verdict{font-weight:700}
+.result.ok .verdict{color:var(--good)}
+.result.no .verdict{color:var(--bad)}
+.steps{margin:0;padding-left:1.3rem;display:flex;flex-direction:column;gap:4px}
+.steps li{padding-left:2px}
+
+.pad{display:flex;flex-direction:column;gap:6px}
+.padhead{display:flex;justify-content:space-between;align-items:center}
+.padbox{height:220px;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:22px 22px}
+.padbox canvas{display:block;width:100%;height:100%;touch-action:none;color:var(--blue);cursor:crosshair}
+
+.score{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end}
+.score .big{font-family:var(--f-display);font-weight:800;font-size:3.4rem;line-height:.9}
+.score .cell{display:flex;flex-direction:column;gap:4px}
+.score .val{font-family:var(--f-num);font-size:1.4rem;font-variant-numeric:tabular-nums}
+
+.review{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.review > li{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:14px 0;border-top:1px solid var(--line)}
+.review .body{min-width:0;display:flex;flex-direction:column;gap:8px}
+.review .ans{font-family:var(--f-num);font-size:.92rem}
+.review .key{font-family:var(--f-num);font-weight:600;color:var(--good)}
+details summary{cursor:pointer;color:var(--blue);font-weight:700;font-size:.92rem}
+details .steps{margin-top:6px}
+
+.sealed{border:1.5px dashed var(--line);border-radius:6px;padding:14px 16px;display:flex;gap:14px;align-items:center}
+.wax{flex:none;width:44px;height:44px;border-radius:50%;background:var(--red);color:var(--paper);display:grid;place-items:center;
+  font-family:var(--f-display);font-weight:800;font-size:1.1rem;box-shadow:inset 0 0 0 3px color-mix(in srgb,var(--red) 70%,var(--paper))}
+.sealed .txt{min-width:0;display:flex;flex-direction:column;gap:2px}
+.sealed strong{font-family:var(--f-display);font-size:1.05rem}
+
+.bonuscard{border:1.5px solid var(--gold);background:var(--gold-bg);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.bonuscard .eyebrow{color:var(--gold)}
+
+.share{display:flex;flex-direction:column;gap:10px}
+.share pre{margin:0;font-family:var(--f-num);font-size:.95rem;background:var(--bg);border-radius:6px;padding:12px;white-space:pre-wrap;user-select:all;overflow-x:auto}
+.tag{display:inline-block;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--red);border:1.5px solid var(--red);border-radius:4px;padding:1px 7px}
+.tag.gold{color:var(--gold);border-color:var(--gold)}
+.navrow{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+footer{font-size:.85rem;color:var(--muted);text-align:center}
+.loading{min-height:240px;display:grid;place-content:center;text-align:center;gap:8px;color:var(--muted)}
+@media (max-width:420px){.lineup li{grid-template-columns:1.6rem 1fr}.lineup .tier,.lineup .topic{grid-column:2}.postmark{width:80px;height:80px}.postmark .no{font-size:1.4rem}}
+@media (prefers-reduced-motion:no-preference){.result{animation:rise .25s ease-out}@keyframes rise{from{transform:translateY(4px)}to{transform:none}}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>Back of the Envelope</h1>
+      <p id="tagline">Five real-world problems a day. Seven on Saturdays.</p>
+    </div>
+    <div class="postmark" id="postmark" aria-label="Set number and date"><span class="lbl">Daily</span><span class="no">·</span><span class="lbl">Math</span></div>
+  </header>
+  <main class="envelope"><div class="inner" id="view">
+    <div class="loading"><h3>Opening today's envelope…</h3><p>Loading the puzzle file.</p></div>
+  </div></main>
+  <footer>A new set every day at midnight your time. Everyone gets the same problems.</footer>
+</div>
+
+<script>
+(function(){
+/* ---------- settings ---------- */
+const CONFIG={
+  dataUrl:'puzzles.json',
+  unlock:'next-day',   // 'next-day' | 'after-share' | 'immediate' — when today's solutions open
+  shareUrl:'',         // added as the last line of the share text once the site has a home
+};
+const LAUNCH='2026-10-05';
+
+/* ---------- helpers ---------- */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad2=n=>String(n).padStart(2,'0');
+const isoLocal=d=>`${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+const today=()=>isoLocal(new Date());
+const utc=s=>{const[y,m,d]=s.split('-').map(Number);return Date.UTC(y,m-1,d)};
+const addDays=(s,n)=>{const d=new Date(utc(s)+n*864e5);return `${d.getUTCFullYear()}-${pad2(d.getUTCMonth()+1)}-${pad2(d.getUTCDate())}`};
+const dayNo=s=>Math.round((utc(s)-utc(LAUNCH))/864e5)+1;
+const fmtTime=ms=>{const s=Math.round(ms/1000);return `${Math.floor(s/60)}:${pad2(s%60)}`};
+const longDate=s=>new Date(utc(s)).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',timeZone:'UTC'});
+const shortDate=s=>new Date(utc(s)).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'UTC'});
+const store={get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const key=d=>'bote:v2:'+d;
+function untilMidnight(){const n=new Date(),m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1);const mins=Math.max(1,Math.ceil((m-n)/6e4));
+  const h=Math.floor(mins/60),mm=mins%60;return h?`${h}h ${mm}m`:`${mm}m`}
+
+/* ---------- answers ---------- */
+function parseAnswer(raw){
+  let s=raw.trim().toLowerCase().replace(/−/g,'-').replace(/^[a-z]\s*=\s*/,'').replace(/[$,%°]/g,'').replace(/(\s*[a-z][a-z.]*)+$/,'').trim();
+  let m=s.match(/^(-?\d+)\s+(\d+)\s*\/\s*(\d+)$/);if(m){const w=+m[1],f=+m[2]/+m[3];return +m[3]?w+(w<0?-f:f):NaN}
+  m=s.match(/^(-?\d*\.?\d+)\s*\/\s*(\d*\.?\d+)$/);if(m)return +m[2]?+m[1]/+m[2]:NaN;
+  return /^-?(\d+\.?\d*|\.\d+)$/.test(s)?+s:NaN;
+}
+const isRight=(p,x)=>Math.abs(x-p.answer.value)<=p.answer.tol;
+const HINT={money:'Dollars and cents, like 12.50',int:'A whole number',dec:'A number; decimals are fine',frac:'A fraction like 3/8 or 1 1/2, or a decimal',pct:'A percent, like 12.5'};
+
+/* ---------- data ---------- */
+let DATA=null,BYDATE=new Map();
+function dayFor(date){
+  if(BYDATE.has(date))return BYDATE.get(date);
+  // Past the end of the file: reuse an earlier day on the same weekday so the site never goes blank.
+  const days=DATA.days,n=days.length,wd=new Date(utc(date)).getUTCDay();
+  let i=((dayNo(date)-1)%n+n)%n;
+  for(let k=0;k<7;k++){const d=days[(i+k)%n];if(new Date(utc(d.date)).getUTCDay()===wd){i=(i+k)%n;break}}
+  return {...days[i],date,no:dayNo(date),reused:true};
+}
+const hasDay=d=>BYDATE.has(d);
+
+/* ---------- state ---------- */
+const view=document.getElementById('view');
+let S=null;           // {mode:'daily'|'practice', date, day, rec}
+let base=0,seg=null,tickId=null,pad=null,hiddenPaused=false,countId=null;
+const elapsed=()=>base+(seg!==null?performance.now()-seg:0);
+const blankRec=()=>({answers:[],elapsed:0,done:false,bonus:null,shared:false});
+function save(){if(S.mode==='daily')store.set(key(S.date),S.rec)}
+function startClock(){if(seg===null)seg=performance.now();clearInterval(tickId);tickId=setInterval(()=>{const t=document.getElementById('timer');if(t)t.textContent=fmtTime(elapsed())},250)}
+function pauseClock(){if(seg!==null){base+=performance.now()-seg;seg=null}clearInterval(tickId);S.rec.elapsed=base;save()}
+document.addEventListener('visibilitychange',()=>{
+  if(!S)return;
+  if(document.hidden&&seg!==null){pauseClock();hiddenPaused=true}
+  else if(!document.hidden&&hiddenPaused){hiddenPaused=false;if(document.getElementById('timer'))startClock()}
+});
+
+function loadDaily(date){const d=date||today();S={mode:'daily',date:d,day:dayFor(d),rec:store.get(key(d))||blankRec()}}
+function loadPractice(){let i=store.get('bote:v2:practice-next')||0;const set=DATA.practice[i%DATA.practice.length];
+  store.set('bote:v2:practice-next',i+1);
+  S={mode:'practice',date:today(),day:{no:set.id,kind:'practice',problems:set.problems,bonus:null},rec:blankRec()}}
+
+const isSat=day=>day.kind==='saturday';
+const setName=day=>isSat(day)?'The Saturday Seven':"Today's five";
+function solutionsOpen(date){
+  if(date<today())return true;
+  if(date>today())return false;
+  if(CONFIG.unlock==='immediate')return true;
+  const r=store.get(key(date));
+  return CONFIG.unlock==='after-share'&&!!(r&&r.done&&r.shared);
+}
+
+function renderPostmark(){
+  const pm=document.getElementById('postmark');
+  if(S.mode==='practice'){pm.innerHTML=`<span class="lbl">Practice</span><span class="no">P${S.day.no}</span><span class="lbl">Unscored</span>`;return}
+  const dt=new Date(utc(S.date)),mon=dt.toLocaleString('en-US',{month:'short',timeZone:'UTC'}).toUpperCase();
+  pm.innerHTML=`<span class="lbl">No.</span><span class="no">${S.day.no}</span><span class="lbl">${mon} ${pad2(dt.getUTCDate())} ${dt.getUTCFullYear()}</span>`;
+}
+function stampsHTML(){const N=S.day.problems.length;
+  let h=S.day.problems.map((p,i)=>{const a=S.rec.answers[i];
+    const cls=a?(a.correct?'ok':'no'):(i===S.rec.answers.length?'cur':'');
+    return `<span class="stamp ${cls}" aria-label="Problem ${i+1}${a?(a.correct?', correct':', missed'):''}">${a?(a.correct?'✓':'✗'):i+1}</span>`}).join('');
+  if(S.rec.bonus)h+=`<span class="stamp ${S.rec.bonus.correct?'star':'no'}" aria-label="Bonus${S.rec.bonus.correct?', solved':', missed'}">${S.rec.bonus.correct?'★':'✗'}</span>`;
+  return `<div class="stamps" aria-label="Progress, ${N} problems">${h}</div>`}
+function tableHTML(t){if(!t)return'';
+  return `<div class="tbl"><table><thead><tr>${t.headers.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
+const stepsHTML=p=>`<ol class="steps">${p.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>`;
+const sealedHTML=()=>CONFIG.unlock==='after-share'
+  ?`<div class="sealed"><span class="wax" aria-hidden="true">B</span><div class="txt"><strong>Solutions are sealed</strong><span class="muted">Send your result to someone to open today's answers.</span></div></div>`
+  :`<div class="sealed"><span class="wax" aria-hidden="true">B</span><div class="txt"><strong>Solutions open tomorrow</strong><span class="muted">In <span id="countdown">${untilMidnight()}</span>. Until then, compare notes with whoever you send your result to.</span></div></div>`;
+function tickCountdown(){clearInterval(countId);countId=setInterval(()=>{const c=document.getElementById('countdown');if(c)c.textContent=untilMidnight();else clearInterval(countId);
+  if(S&&S.mode==='daily'&&S.date!==today()){clearInterval(countId);loadDaily();route()}},30000)}
+
+/* ---------- views ---------- */
+function showIntro(){renderPostmark();
+  const day=S.day,done=S.rec.answers.length,N=day.problems.length,yest=addDays(S.date,-1),sat=isSat(day);
+  view.innerHTML=`
+    <div class="stack">
+      <div class="eyebrow">${S.mode==='practice'?'<span class="tag">Practice set</span>':esc(longDate(S.date))}</div>
+      <h2>${S.mode==='practice'?'A practice set of five':setName(day)}</h2>
+      ${sat&&S.mode==='daily'?'<p class="muted">Saturdays run seven problems instead of five, with an extra two-step and an extra tricky one. Budget about eight minutes.</p>':''}
+    </div>
+    <ol class="lineup">${day.problems.map((p,i)=>`<li><span class="n">${i+1}</span><span class="tier">${esc(p.tierName)}</span><span class="topic">${esc(cap(p.topic))}</span></li>`).join('')}
+      ${day.bonus?`<li class="bonus"><span class="n">★</span><span class="tier">Bonus</span><span class="topic">A puzzle after you finish. Doesn't count toward your score.</span></li>`:''}</ol>
+    <p class="muted">${S.mode==='practice'
+      ?'Practice sets show the answer and the worked solution right after each problem.'
+      :`Type each answer yourself. You get one try per problem and you'll see right or wrong, but the solutions stay sealed until tomorrow, so argue it out with friends. The clock only runs while a problem is open.`}</p>
+    <div class="btnrow">
+      <button class="btn" id="go">${done?`Resume · ${done} of ${N} done`:(S.mode==='practice'?'Start practice':`Start No. ${day.no}`)}</button>
+      ${S.mode==='practice'?'<button class="btn ghost" id="back">Back to today\'s set</button>':'<button class="btn ghost" id="practice">Practice set</button>'}
+      ${S.mode==='daily'&&hasDay(yest)?`<button class="btn ghost" id="yest">Yesterday's solutions</button>`:''}
+    </div>`;
+  document.getElementById('go').onclick=()=>{base=S.rec.elapsed||0;seg=null;showProblem(false)};
+  bind('back',()=>{loadDaily();route()});
+  bind('practice',()=>{loadPractice();route()});
+  bind('yest',()=>showSolutions(yest));
+  document.getElementById('go').focus({preventScroll:true});
+}
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+function bind(id,fn){const el=document.getElementById(id);if(el)el.onclick=fn}
+
+function showProblem(isBonus){
+  const day=S.day,N=day.problems.length,i=S.rec.answers.length,p=isBonus?day.bonus:day.problems[i];
+  const pre=p.answer.kind==='money'?'$':'',post=p.answer.kind==='pct'?'%':(p.unit||'');
+  view.innerHTML=`
+    <div class="meta">${stampsHTML()}${isBonus?'<span class="tag gold">Bonus</span>':`<span class="timer" id="timer" aria-label="Elapsed time">${fmtTime(elapsed())}</span>`}</div>
+    <div class="eyebrow">${isBonus?'Bonus puzzle · not scored':`Problem ${i+1} of ${N} · ${esc(p.tierName)} · ${esc(cap(p.topic))}`}</div>
+    <p class="question">${esc(p.stem)}</p>
+    ${tableHTML(p.table)}
+    <p class="ask">${esc(p.ask)}</p>
+    <div id="slot">
+      <form class="answer" id="form" novalidate>
+        <label for="ans">Your answer</label>
+        <div class="field">
+          <div class="inputbox">${pre?`<span class="affix">${pre}</span>`:''}<input id="ans" type="text" inputmode="${p.answer.kind==='frac'?'text':'decimal'}" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="hint err">${post?`<span class="affix">${esc(post)}</span>`:''}</div>
+          <button class="btn" type="submit">Check</button>
+        </div>
+        <span class="hint" id="hint">${HINT[p.answer.kind]}</span>
+        <span class="err" id="err" role="alert"></span>
+      </form>
+    </div>
+    <div class="pad">
+      <div class="padhead"><span class="eyebrow">Scratch pad</span><button class="btn ghost small" id="clear" type="button">Clear</button></div>
+      <div class="padbox"><canvas id="canvas" aria-label="Scratch pad for working out the problem"></canvas></div>
+    </div>`;
+  pad=setupPad(document.getElementById('canvas'));
+  bind('clear',()=>pad.clear());
+  const input=document.getElementById('ans');input.focus({preventScroll:true});
+  document.getElementById('form').onsubmit=e=>{e.preventDefault();
+    const raw=input.value,x=parseAnswer(raw),err=document.getElementById('err');
+    if(!raw.trim()){err.textContent='Type an answer first.';return}
+    if(Number.isNaN(x)){err.textContent='Enter a number, like 42, 12.50, 3/4 or 1 1/2.';return}
+    const ok=isRight(p,x),entry={input:raw.trim(),correct:ok};
+    let last=false;
+    if(isBonus){S.rec.bonus=entry}
+    else{pauseClock();S.rec.answers.push(entry);last=S.rec.answers.length===N;if(last)S.rec.done=true;S.rec.elapsed=base}
+    save();
+    document.querySelector('.stamps').outerHTML=stampsHTML();
+    const open=S.mode==='practice';
+    document.getElementById('slot').innerHTML=`
+      <div class="result ${ok?'ok':'no'}" role="status">
+        <span class="verdict">${ok?(open?`Correct: ${esc(p.display)}`:'Correct.'):(open?`Not this time. You wrote ${esc(raw.trim())}; the answer is ${esc(p.display)}.`:`Not quite. You wrote ${esc(raw.trim())}.`)}</span>
+        ${open?stepsHTML(p):`<span class="muted">${ok?'Nice work.':'The answer and worked solution open tomorrow.'}</span>`}
+      </div>
+      <div class="btnrow" style="margin-top:12px"><button class="btn" id="next">${isBonus||last?'See results':'Next problem'}</button></div>`;
+    const nx=document.getElementById('next');nx.focus({preventScroll:true});
+    nx.onclick=()=>{if(isBonus||last)showSummary();else{startClock();showProblem(false)}};
+  };
+  if(!isBonus)startClock();
+}
+
+function shareText(){const sq=S.rec.answers.map(a=>a.correct?'🟩':'🟥').join(''),n=S.rec.answers.filter(a=>a.correct).length,N=S.day.problems.length;
+  const lines=[`Back of the Envelope No. ${S.day.no}${isSat(S.day)?' · Saturday Seven':''}`,
+    sq+(S.rec.bonus&&S.rec.bonus.correct?' ⭐':''),
+    `${n}/${N} in ${fmtTime(S.rec.elapsed)}${S.rec.bonus&&S.rec.bonus.correct?' + bonus':''}`];
+  if(CONFIG.shareUrl)lines.push(CONFIG.shareUrl);
+  return lines.join('\n')}
+
+function showSummary(){clearInterval(tickId);renderPostmark();
+  const day=S.day,N=day.problems.length,n=S.rec.answers.filter(a=>a.correct).length;
+  const practice=S.mode==='practice',open=practice||solutionsOpen(S.date);
+  const st=practice?null:streak();
+  const ratio=n/N,line=ratio===1?'Clean sweep.':ratio>=.8?'Sharp.':ratio>=.6?'Solid work.':ratio>=.4?'A fair day. Tomorrow\'s another envelope.':'Tough one. Compare notes and come back tomorrow.';
+  const bonusPending=day.bonus&&!S.rec.bonus;
+  view.innerHTML=`
+    <div class="eyebrow">${practice?'<span class="tag">Practice set</span>':`No. ${day.no} complete${isSat(day)?' · Saturday Seven':''}`}</div>
+    <div class="score">
+      <div class="cell"><span class="big">${n}/${N}</span></div>
+      <div class="cell"><span class="eyebrow">Time</span><span class="val">${fmtTime(S.rec.elapsed)}</span></div>
+      ${st!==null?`<div class="cell"><span class="eyebrow">Streak</span><span class="val">${st} day${st===1?'':'s'}</span></div>`:''}
+    </div>
+    <p>${line}</p>
+    ${stampsHTML()}
+    ${bonusPending?`<div class="bonuscard"><span class="eyebrow">★ Bonus puzzle today</span><p>One more, just for fun. It doesn't change your score, but solving it adds a star to your result.</p><div class="btnrow"><button class="btn" id="bonus">Try the bonus</button></div></div>`:''}
+    ${practice?'':`<div class="share">
+      <span class="eyebrow">Send your result</span>
+      <pre id="sharetext">${esc(shareText())}</pre>
+      <div class="btnrow">
+        <a class="btn" id="sms" href="sms:?&body=${encodeURIComponent(shareText())}">Text it</a>
+        ${navigator.share?'<button class="btn ghost" id="native">Share…</button>':''}
+        <button class="btn ghost" id="copy">Copy</button>
+        <span class="hint" id="copied" role="status"></span>
+      </div>
+    </div>`}
+    ${open?'':sealedHTML()}
+    <ol class="review">${day.problems.map((p,i)=>reviewItem(p,S.rec.answers[i],open,`${i+1}`)).join('')}
+      ${day.bonus&&S.rec.bonus?reviewItem(day.bonus,S.rec.bonus,open,'★'):''}</ol>
+    <div class="btnrow">
+      ${practice?'<button class="btn ghost" id="practice">Another practice set</button><button class="btn ghost" id="back">Back to today\'s set</button>'
+        :`<button class="btn ghost" id="practice">Practice set</button>${hasDay(addDays(S.date,-1))?'<button class="btn ghost" id="yest">Yesterday\'s solutions</button>':''}`}
+    </div>`;
+  bind('bonus',()=>showProblem(true));
+  bind('practice',()=>{loadPractice();route()});
+  bind('back',()=>{loadDaily();route()});
+  bind('yest',()=>showSolutions(addDays(S.date,-1)));
+  const msg=document.getElementById('copied');
+  const shared=()=>{if(!S.rec.shared){S.rec.shared=true;save();if(CONFIG.unlock==='after-share')setTimeout(showSummary,1200)}};
+  bind('copy',()=>{
+    const sel=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('sharetext'));const s=getSelection();s.removeAllRanges();s.addRange(r);msg.textContent='Selected. Copy it with your keyboard or a long-press.';shared()};
+    try{navigator.clipboard.writeText(shareText()).then(()=>{msg.textContent='Copied. Paste it into any chat.';shared()},sel)}catch(e){sel()}});
+  const sms=document.getElementById('sms');if(sms)sms.addEventListener('click',()=>{msg.textContent='Opening your messages app. If nothing opens, use Copy.';shared()});
+  bind('native',()=>{navigator.share({text:shareText()}).then(shared,()=>{msg.textContent='Sharing isn\'t available here. Use Copy instead.'})});
+  if(!open)tickCountdown();
+}
+function reviewItem(p,a,open,label){
+  return `<li>
+    <span class="stamp ${a?(a.correct?(label==='★'?'star':'ok'):'no'):''}" aria-hidden="true">${a?(a.correct?(label==='★'?'★':'✓'):'✗'):esc(label)}</span>
+    <div class="body">
+      <span class="eyebrow">${label==='★'?'Bonus':esc(p.tierName)} · ${esc(cap(p.topic))}</span>
+      <p>${esc(p.stem)}</p>${tableHTML(p.table)}<p><strong>${esc(p.ask)}</strong></p>
+      <span class="ans">${a?`You: ${esc(a.input)} ${a.correct?'✓':'✗'}`:'Not answered'}${open?` · Answer: <span class="key">${esc(p.display)}</span>`:''}</span>
+      ${open?`<details><summary>Worked solution</summary>${stepsHTML(p)}</details>`:''}
+    </div></li>`}
+
+function showSolutions(date){clearInterval(tickId);
+  const day=dayFor(date),rec=store.get(key(date)),open=solutionsOpen(date);
+  const prev=addDays(date,-1),next=addDays(date,1);
+  const pm=document.getElementById('postmark'),dt=new Date(utc(date));
+  pm.innerHTML=`<span class="lbl">No.</span><span class="no">${day.no}</span><span class="lbl">${dt.toLocaleString('en-US',{month:'short',timeZone:'UTC'}).toUpperCase()} ${pad2(dt.getUTCDate())} ${dt.getUTCFullYear()}</span>`;
+  view.innerHTML=`
+    <div class="stack">
+      <div class="eyebrow">${esc(longDate(date))}</div>
+      <h2>Solutions for No. ${day.no}</h2>
+      <p class="muted">${rec&&rec.done?`You scored ${rec.answers.filter(a=>a.correct).length}/${day.problems.length} in ${fmtTime(rec.elapsed)}.`:'You didn\'t play this one. Read through how each problem works.'}</p>
+    </div>
+    ${open?`<ol class="review">${day.problems.map((p,i)=>reviewItem(p,rec&&rec.answers[i],true,`${i+1}`)).join('')}
+      ${day.bonus?reviewItem(day.bonus,rec&&rec.bonus,true,'★'):''}</ol>`:sealedHTML()}
+    <div class="navrow">
+      <button class="btn ghost small" id="prev" ${hasDay(prev)?'':'disabled'}>← ${esc(shortDate(prev))}</button>
+      <button class="btn" id="home">Back to today</button>
+      <button class="btn ghost small" id="nextd" ${next<=today()&&solutionsOpen(next)?'':'disabled'}>${esc(shortDate(next))} →</button>
+    </div>`;
+  bind('prev',()=>showSolutions(prev));
+  bind('nextd',()=>showSolutions(next));
+  bind('home',()=>{loadDaily();route()});
+  window.scrollTo({top:0});
+}
+
+function streak(){let d=today(),n=0;const t=store.get(key(d));if(!(t&&t.done))d=addDays(d,-1);
+  for(;;){const r=store.get(key(d));if(r&&r.done){n++;d=addDays(d,-1)}else break}return n}
+
+function route(){renderPostmark();
+  const day=S.day;document.getElementById('tagline').textContent=isSat(day)&&S.mode==='daily'?'Saturday means seven problems instead of five.':'Five real-world problems a day. Seven on Saturdays.';
+  if(S.rec.done)showSummary();else showIntro()}
+
+/* ---------- scratch pad ---------- */
+function setupPad(cv){const ctx=cv.getContext('2d');let down=false,last=null;
+  function size(){const r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=2.2}
+  const pos=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
+  cv.addEventListener('pointerdown',e=>{down=true;try{cv.setPointerCapture(e.pointerId)}catch(_){}last=pos(e);const c=getComputedStyle(cv).color;ctx.strokeStyle=c;ctx.fillStyle=c;ctx.beginPath();ctx.arc(last[0],last[1],1.1,0,Math.PI*2);ctx.fill()});
+  cv.addEventListener('pointermove',e=>{if(!down)return;const p=pos(e);ctx.beginPath();ctx.moveTo(last[0],last[1]);ctx.lineTo(p[0],p[1]);ctx.stroke();last=p});
+  ['pointerup','pointercancel','pointerleave'].forEach(t=>cv.addEventListener(t,()=>{down=false}));
+  size();return{size,clear(){ctx.clearRect(0,0,cv.width,cv.height)}}}
+window.addEventListener('resize',()=>{if(pad&&document.getElementById('canvas'))pad.size()});
+window.addEventListener('pagehide',()=>{if(S&&!S.rec.done&&seg!==null){S.rec.elapsed=elapsed();save()}});
+
+/* ---------- boot ---------- */
+fetch(CONFIG.dataUrl).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(data=>{
+  DATA=data;data.days.forEach(d=>BYDATE.set(d.date,d));
+  loadDaily();route();
+}).catch(()=>{view.innerHTML=`<div class="loading"><h3>The puzzle file didn't load.</h3><p>Check your connection and reload the page.</p></div>`});
+})();
+</script>
+</body>
+</html>
