@@ -20,7 +20,7 @@
    graph-paper scratch pad under each problem, a sealed flap for solutions that open tomorrow. */
 :root{
   --bg:#E8ECF1; --paper:#FFFFFF; --ink:#1B2230; --muted:#5B6576; --line:#D2D9E3; --grid:#E4E9F0;
-  --blue:#1F3FA6; --on-blue:#FFFFFF; --red:#C8372D; --gold:#9A6A00; --gold-bg:#FBF1D6;
+  --blue:#1F3FA6; --on-blue:#FFFFFF; --red:#C8372D; --gold:#9A6A00; --gold-bg:#FBF1D6; --amber:#8A6400; --amber-bg:#FFF3C4;
   --good:#1D7448; --good-bg:#E2F2E9; --bad:#A12E28; --bad-bg:#FBE6E3;
   --f-display:'Bricolage Grotesque','Avenir Next','Segoe UI',system-ui,sans-serif;
   --f-body:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;
@@ -28,11 +28,11 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#10141B; --paper:#192029; --ink:#E6EAF1; --muted:#9AA4B4; --line:#2C3441; --grid:#222A35;
-  --blue:#8FA7FF; --on-blue:#0E1320; --red:#FF7C6F; --gold:#F2C14E; --gold-bg:#33290F;
+  --blue:#8FA7FF; --on-blue:#0E1320; --red:#FF7C6F; --gold:#F2C14E; --gold-bg:#33290F; --amber:#F2C94C; --amber-bg:#352C0B;
   --good:#5CCB8F; --good-bg:#142E20; --bad:#FF8C80; --bad-bg:#3A1C1A; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#10141B; --paper:#192029; --ink:#E6EAF1; --muted:#9AA4B4; --line:#2C3441; --grid:#222A35;
-  --blue:#8FA7FF; --on-blue:#0E1320; --red:#FF7C6F; --gold:#F2C14E; --gold-bg:#33290F;
+  --blue:#8FA7FF; --on-blue:#0E1320; --red:#FF7C6F; --gold:#F2C14E; --gold-bg:#33290F; --amber:#F2C94C; --amber-bg:#352C0B;
   --good:#5CCB8F; --good-bg:#142E20; --bad:#FF8C80; --bad-bg:#3A1C1A; color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -87,7 +87,8 @@ button,.btn{font:inherit;cursor:pointer}
 .stamp.cur{border:2px solid var(--blue);color:var(--blue)}
 .stamp.ok{border:2px solid var(--good);background:var(--good-bg);color:var(--good)}
 .stamp.no{border:2px solid var(--bad);background:var(--bad-bg);color:var(--bad)}
-.stamp.star{border:2px solid var(--gold);background:var(--gold-bg);color:var(--gold)}
+.stamp.two{border:2px solid var(--amber);background:var(--amber-bg);color:var(--amber)}
+.stamp.star{border:2px solid var(--blue);background:var(--paper);color:var(--blue)}
 
 .meta{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .timer{font-family:var(--f-num);font-variant-numeric:tabular-nums;font-size:1.05rem;color:var(--muted)}
@@ -116,6 +117,10 @@ form.answer label{font-weight:700;font-size:.9rem}
 .result .verdict{font-weight:700}
 .result.ok .verdict{color:var(--good)}
 .result.no .verdict{color:var(--bad)}
+.result.retry{background:var(--amber-bg);margin-bottom:12px}
+.result.retry .verdict{color:var(--amber)}
+.result.two{background:var(--amber-bg)}
+.result.two .verdict{color:var(--amber)}
 .steps{margin:0;padding-left:1.3rem;display:flex;flex-direction:column;gap:4px}
 .steps li{padding-left:2px}
 
@@ -181,7 +186,7 @@ footer{font-size:.85rem;color:var(--muted);text-align:center}
 /* ---------- settings ---------- */
 const CONFIG={
   dataUrl:'puzzles.json',
-  unlock:'next-day',   // 'next-day' | 'after-share' | 'immediate' — when today's solutions open
+  unlock:'next-day',   // 'next-day' | 'after-share' | 'immediate' — when a problem's worked solution shows
   shareUrl:'https://daily-math.dongfeng2015.workers.dev',  // last line of the share text
 };
 const LAUNCH='2026-10-05';
@@ -210,6 +215,10 @@ function parseAnswer(raw){
   return /^-?(\d+\.?\d*|\.\d+)$/.test(s)?+s:NaN;
 }
 const isRight=(p,x)=>Math.abs(x-p.answer.value)<=p.answer.tol;
+const MAX_TRIES=2;
+const triesOf=a=>a.tries||1;
+const markOf=a=>!a.correct?'no':(triesOf(a)>1?'two':'ok');
+const squareOf=a=>({ok:'🟩',two:'🟨',no:'🟥'})[markOf(a)];
 const HINT={money:'Dollars and cents, like 12.50',int:'A whole number',dec:'A number; decimals are fine',frac:'A fraction like 3/8 or 1 1/2, or a decimal',pct:'A percent, like 12.5'};
 
 /* ---------- data ---------- */
@@ -262,16 +271,17 @@ function renderPostmark(){
 }
 function stampsHTML(){const N=S.day.problems.length;
   let h=S.day.problems.map((p,i)=>{const a=S.rec.answers[i];
-    const cls=a?(a.correct?'ok':'no'):(i===S.rec.answers.length?'cur':'');
-    return `<span class="stamp ${cls}" aria-label="Problem ${i+1}${a?(a.correct?', correct':', missed'):''}">${a?(a.correct?'✓':'✗'):i+1}</span>`}).join('');
+    const cls=a?markOf(a):(i===S.rec.answers.length?'cur':'');
+    const lbl=a?({ok:', correct',two:', correct on the second try',no:', missed'})[markOf(a)]:'';
+    return `<span class="stamp ${cls}" aria-label="Problem ${i+1}${lbl}">${a?(a.correct?'✓':'✗'):i+1}</span>`}).join('');
   if(S.rec.bonus)h+=`<span class="stamp ${S.rec.bonus.correct?'star':'no'}" aria-label="Bonus${S.rec.bonus.correct?', solved':', missed'}">${S.rec.bonus.correct?'★':'✗'}</span>`;
   return `<div class="stamps" aria-label="Progress, ${N} problems">${h}</div>`}
 function tableHTML(t){if(!t)return'';
   return `<div class="tbl"><table><thead><tr>${t.headers.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
 const stepsHTML=p=>`<ol class="steps">${p.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>`;
 const sealedHTML=()=>CONFIG.unlock==='after-share'
-  ?`<div class="sealed"><span class="wax" aria-hidden="true">B</span><div class="txt"><strong>Solutions are sealed</strong><span class="muted">Send your result to someone to open today's answers.</span></div></div>`
-  :`<div class="sealed"><span class="wax" aria-hidden="true">B</span><div class="txt"><strong>Solutions open tomorrow</strong><span class="muted">In <span id="countdown">${untilMidnight()}</span>. Until then, compare notes with whoever you send your result to.</span></div></div>`;
+  ?`<div class="sealed"><span class="wax" aria-hidden="true">B</span><div class="txt"><strong>Worked solutions are sealed</strong><span class="muted">Send your result to someone to open how today's problems are solved.</span></div></div>`
+  :`<div class="sealed"><span class="wax" aria-hidden="true">B</span><div class="txt"><strong>Worked solutions open tomorrow</strong><span class="muted">In <span id="countdown">${untilMidnight()}</span>. Until then, compare notes with whoever you send your result to.</span></div></div>`;
 function tickCountdown(){clearInterval(countId);countId=setInterval(()=>{const c=document.getElementById('countdown');if(c)c.textContent=untilMidnight();else clearInterval(countId);
   if(S&&S.mode==='daily'&&S.date!==today()){clearInterval(countId);loadDaily();route()}},30000)}
 
@@ -287,12 +297,12 @@ function showIntro(){renderPostmark();
     <ol class="lineup">${day.problems.map((p,i)=>`<li><span class="n">${i+1}</span><span class="tier">${esc(p.tierName)}</span><span class="topic">${esc(cap(p.topic))}</span></li>`).join('')}
       ${day.bonus?`<li class="bonus"><span class="n">★</span><span class="tier">Bonus</span><span class="topic">A puzzle after you finish. Doesn't count toward your score.</span></li>`:''}</ol>
     <p class="muted">${S.mode==='practice'
-      ?'Practice sets show the answer and the worked solution right after each problem.'
-      :`Type each answer yourself. You get one try per problem and you'll see right or wrong, but the solutions stay sealed until tomorrow, so argue it out with friends. The clock only runs while a problem is open.`}</p>
+      ?'You get two tries per problem, and practice sets show the answer and the worked solution right away.'
+      :(CONFIG.unlock==='immediate'?`Type each answer yourself. You get two tries per problem, then you'll see the answer and how to solve it. The clock only runs while a problem is open.`:`Type each answer yourself. You get two tries per problem. Miss both and you'll see the answer, but how to solve it stays sealed until tomorrow, so argue it out with friends. The clock only runs while a problem is open.`)}</p>
     <div class="btnrow">
       <button class="btn" id="go">${done?`Resume · ${done} of ${N} done`:(S.mode==='practice'?'Start practice':`Start No. ${day.no}`)}</button>
       ${S.mode==='practice'?'<button class="btn ghost" id="back">Back to today\'s set</button>':'<button class="btn ghost" id="practice">Practice set</button>'}
-      ${S.mode==='daily'&&hasDay(yest)?`<button class="btn ghost" id="yest">Yesterday's solutions</button>`:''}
+      ${S.mode==='daily'&&hasDay(yest)?`<button class="btn ghost" id="yest">${CONFIG.unlock==='immediate'?'Past puzzles':'Yesterday\'s solutions'}</button>`:''}
     </div>`;
   document.getElementById('go').onclick=()=>{base=S.rec.elapsed||0;seg=null;showProblem(false)};
   bind('back',()=>{loadDaily();route()});
@@ -313,6 +323,7 @@ function showProblem(isBonus){
     ${tableHTML(p.table)}
     <p class="ask">${esc(p.ask)}</p>
     <div id="slot">
+      <div id="retry"></div>
       <form class="answer" id="form" novalidate>
         <label for="ans">Your answer</label>
         <div class="field">
@@ -330,21 +341,29 @@ function showProblem(isBonus){
   pad=setupPad(document.getElementById('canvas'));
   bind('clear',()=>pad.clear());
   const input=document.getElementById('ans');input.focus({preventScroll:true});
+  const slotId=isBonus?'bonus':'p'+i;
+  let pend=S.rec.pending&&S.rec.pending.slot===slotId?S.rec.pending:null;
+  const showRetry=()=>{document.getElementById('retry').innerHTML=pend?`<div class="result retry" role="status"><span class="verdict">Not quite. One more try.</span><span class="muted">You wrote ${esc(pend.inputs[0])}.</span></div>`:''};
+  showRetry();
   document.getElementById('form').onsubmit=e=>{e.preventDefault();
     const raw=input.value,x=parseAnswer(raw),err=document.getElementById('err');
     if(!raw.trim()){err.textContent='Type an answer first.';return}
     if(Number.isNaN(x)){err.textContent='Enter a number, like 42, 12.50, 3/4 or 1 1/2.';return}
-    const ok=isRight(p,x),entry={input:raw.trim(),correct:ok};
+    err.textContent='';
+    const ok=isRight(p,x),inputs=(pend?pend.inputs:[]).concat(raw.trim());
+    if(!ok&&inputs.length<MAX_TRIES){pend={slot:slotId,inputs};S.rec.pending=pend;save();showRetry();input.value='';input.focus({preventScroll:true});return}
+    S.rec.pending=null;
+    const entry={input:raw.trim(),inputs,correct:ok,tries:inputs.length};
     let last=false;
     if(isBonus){S.rec.bonus=entry}
     else{pauseClock();S.rec.answers.push(entry);last=S.rec.answers.length===N;if(last)S.rec.done=true;S.rec.elapsed=base}
     save();
     document.querySelector('.stamps').outerHTML=stampsHTML();
-    const open=S.mode==='practice';
+    const open=S.mode==='practice'||solutionsOpen(S.date);
     document.getElementById('slot').innerHTML=`
-      <div class="result ${ok?'ok':'no'}" role="status">
-        <span class="verdict">${ok?(open?`Correct: ${esc(p.display)}`:'Correct.'):(open?`Not this time. You wrote ${esc(raw.trim())}; the answer is ${esc(p.display)}.`:`Not quite. You wrote ${esc(raw.trim())}.`)}</span>
-        ${open?stepsHTML(p):`<span class="muted">${ok?'Nice work.':'The answer and worked solution open tomorrow.'}</span>`}
+      <div class="result ${markOf(entry)}" role="status">
+        <span class="verdict">${ok?`Correct${entry.tries>1?' on the second try':''}${open?`: ${esc(p.display)}`:'.'}`:`Not this time. The answer is ${esc(p.display)}.`}</span>
+        ${open?`<span class="eyebrow">How to solve it</span>${stepsHTML(p)}`:`<span class="muted">${ok?(entry.tries>1?'Nice recovery.':'Nice work.'):'How to solve it opens tomorrow.'}</span>`}
       </div>
       <div class="btnrow" style="margin-top:12px"><button class="btn" id="next">${isBonus||last?'See results':'Next problem'}</button></div>`;
     const nx=document.getElementById('next');nx.focus({preventScroll:true});
@@ -353,7 +372,7 @@ function showProblem(isBonus){
   if(!isBonus)startClock();
 }
 
-function shareText(){const sq=S.rec.answers.map(a=>a.correct?'🟩':'🟥').join(''),n=S.rec.answers.filter(a=>a.correct).length,N=S.day.problems.length;
+function shareText(){const sq=S.rec.answers.map(squareOf).join(''),n=S.rec.answers.filter(a=>a.correct).length,N=S.day.problems.length;
   const lines=[`Back of the Envelope No. ${S.day.no}${isSat(S.day)?' · Saturday Seven':''}`,
     sq+(S.rec.bonus&&S.rec.bonus.correct?' ⭐':''),
     `${n}/${N} in ${fmtTime(S.rec.elapsed)}${S.rec.bonus&&S.rec.bonus.correct?' + bonus':''}`];
@@ -391,7 +410,7 @@ function showSummary(){clearInterval(tickId);renderPostmark();
       ${day.bonus&&S.rec.bonus?reviewItem(day.bonus,S.rec.bonus,open,'★'):''}</ol>
     <div class="btnrow">
       ${practice?'<button class="btn ghost" id="practice">Another practice set</button><button class="btn ghost" id="back">Back to today\'s set</button>'
-        :`<button class="btn ghost" id="practice">Practice set</button>${hasDay(addDays(S.date,-1))?'<button class="btn ghost" id="yest">Yesterday\'s solutions</button>':''}`}
+        :`<button class="btn ghost" id="practice">Practice set</button>${hasDay(addDays(S.date,-1))?`<button class="btn ghost" id="yest">${CONFIG.unlock==='immediate'?'Past puzzles':'Yesterday\'s solutions'}</button>`:''}`}
     </div>`;
   bind('bonus',()=>showProblem(true));
   bind('practice',()=>{loadPractice();route()});
@@ -408,11 +427,11 @@ function showSummary(){clearInterval(tickId);renderPostmark();
 }
 function reviewItem(p,a,open,label){
   return `<li>
-    <span class="stamp ${a?(a.correct?(label==='★'?'star':'ok'):'no'):''}" aria-hidden="true">${a?(a.correct?(label==='★'?'★':'✓'):'✗'):esc(label)}</span>
+    <span class="stamp ${a?(a.correct&&label==='★'?'star':markOf(a)):''}" aria-hidden="true">${a?(a.correct?(label==='★'?'★':'✓'):'✗'):esc(label)}</span>
     <div class="body">
       <span class="eyebrow">${label==='★'?'Bonus':esc(p.tierName)} · ${esc(cap(p.topic))}</span>
       <p>${esc(p.stem)}</p>${tableHTML(p.table)}<p><strong>${esc(p.ask)}</strong></p>
-      <span class="ans">${a?`You: ${esc(a.input)} ${a.correct?'✓':'✗'}`:'Not answered'}${open?` · Answer: <span class="key">${esc(p.display)}</span>`:''}</span>
+      <span class="ans">${a?`You: ${esc((a.inputs||[a.input]).join(', then '))} ${a.correct?'✓':'✗'}`:'Not answered'}${open||a?` · Answer: <span class="key">${esc(p.display)}</span>`:''}</span>
       ${open?`<details><summary>Worked solution</summary>${stepsHTML(p)}</details>`:''}
     </div></li>`}
 

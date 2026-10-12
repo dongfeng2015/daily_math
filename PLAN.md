@@ -29,7 +29,7 @@ The skill being trained is the one the ACT and SAT actually test: reading a few 
 
 - Loads `puzzles.json`: **2026-10-05 → 2027-10-31, 392 days, 2,072 problems, 56 Saturday Sevens, 107 bonus days, 60 practice sets.** If a date is past the end of the file, it reuses an earlier day on the same weekday so the site never goes blank.
 - Weekdays and Sundays: 5 problems (Warm-up → Everyday → Two-step → Tricky → Stretch). Saturdays: 7 (tiers 1, 2, 3, 3, 4, 4, 5). Bonus: about 30% of non-Saturday days, chosen at random; it's offered after the main set, doesn't count toward the score, and adds a ⭐ to the share.
-- One try per problem. During the daily set the player sees only "Correct." or "Not quite." Solutions open the next day: "Yesterday's solutions" on the start screen, with a date picker back through the archive. Practice sets show answers immediately.
+- Two tries per problem (decided 2026-10-12). A first-try solve shares as 🟩, a second-try solve as 🟨 (still counts toward the score), a miss as 🟥. After the second miss the player sees the answer; the worked solution stays sealed until the next day. Solutions open the next day: "Yesterday's solutions" on the start screen, with a date picker back through the archive. Practice sets show answers immediately.
 - Share block shows a Wordle-style result (`Back of the Envelope No. 6 · Saturday Seven` / `🟩🟥🟩🟩🟩🟩🟩` / `6/7 in 7:42`) with **Text it** (opens an SMS with the result pre-filled), **Share…** (the phone's share sheet, where supported) and **Copy**.
 - Timer runs only while a problem is open, and pauses when the tab is hidden. Streak, practice mode, scratch pad and dark mode carry over from v1.
 - No accounts. Progress lives in the browser.
@@ -158,7 +158,7 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 7. **Backend/auth** vendor for B1 (deferred).
 8. **New puzzle time.** Local midnight (current) or a fixed time for everyone.
 9. **Money.** Not needed until after B2.
-10. **When solutions open.** Current: the next day (`unlock: 'next-day'`). Built-in alternatives: `'after-share'` (send your result to open today's answers) or `'immediate'`. Other ideas: open after X hours, or after a friend also finishes.
+10. **When solutions open.** Current: the answer shows after two misses; the worked solution opens the next day (`unlock: 'next-day'`, reconfirmed 2026-10-12). Built-in alternatives: `'after-share'` (send your result to open today's answers) or `'immediate'`. Other ideas: open after X hours, or after a friend also finishes.
 11. **Bonus rate.** Currently ~30% of non-Saturday days (about 2 a week). Could be fixed days instead (e.g. every Wednesday).
 
 ---
@@ -166,6 +166,10 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 ## 10. Completion ledger
 
 *Newest first.*
+
+**2026-10-12 · Two tries per problem**
+- Completed: two tries per problem (daily, bonus, practice); answer shown after the second miss; 🟨 for second-try solves in the share grid; a pending first try survives a reload.
+- Verification: headless-browser test of first-try, second-try and double-miss paths, reload mid-problem, share grid, sealed summary, past solutions, practice and bonus: no errors.
 
 **2026-10-12 · Live on Cloudflare**
 - Completed: source of truth moved to `~/daily_math` on Dong's Mac; private GitHub repo `dongfeng2015/daily_math`; Cloudflare Workers deploy from `main`; standalone page head (charset, viewport, link preview, icon); share text now links to the site.
