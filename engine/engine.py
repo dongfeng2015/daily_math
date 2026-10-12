@@ -1,4 +1,4 @@
-"""Back of the Envelope problem engine.
+"""Molver problem engine.
 
 Every problem comes from a *template*: a class with three static methods.
 

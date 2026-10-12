@@ -1,4 +1,4 @@
-# Writing templates for Back of the Envelope
+# Writing templates for Molver
 
 A daily set of short, ACT/SAT-style word problems. Players read a real situation, pull out the math
 that matters, and type an exact number. No calculator, no multiple choice, nothing past algebra 2.

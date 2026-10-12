@@ -1,4 +1,4 @@
-"""Tier 3 (Two-step) and tier 4 (Tricky) templates for Back of the Envelope."""
+"""Tier 3 (Two-step) and tier 4 (Tricky) templates for Molver."""
 from fractions import Fraction as F
 from math import gcd, isqrt
 

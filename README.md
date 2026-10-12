@@ -1,4 +1,4 @@
-# Back of the Envelope — daily math
+# Molver — daily math
 
 app/index.html          the web app (loads puzzles.json from the same folder); this folder is what gets deployed
 app/puzzles.json        a year of daily sets (copy of data/puzzles.json)

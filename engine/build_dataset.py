@@ -138,7 +138,7 @@ def main():
         raise SystemExit(f"{len(errors)} invalid problems")
 
     out = {
-        'title': 'Back of the Envelope', 'version': 2,
+        'title': 'Molver', 'version': 2,
         'generated': dt.date.today().isoformat(), 'launch': LAUNCH,
         'range': [a.start, a.end],
         'rules': {'weekday_tiers': WEEKDAY_TIERS, 'saturday_tiers': SATURDAY_TIERS, 'bonus_rate': BONUS_RATE},

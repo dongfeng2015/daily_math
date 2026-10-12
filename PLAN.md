@@ -1,4 +1,4 @@
-# Daily Math — Project Plan
+# Molver — Project Plan
 
 **Owner:** Dong · **Plan created:** 2026-10-07 · **Last updated:** 2026-10-12 · **Source of truth (from 2026-10-12):** the `daily_math` folder on Dong's Mac (`~/daily_math`). Copies in the Claude Project may lag behind it.
 
@@ -25,12 +25,12 @@ The skill being trained is the one the ACT and SAT actually test: reading a few 
 
 ## 2. Where we are (2026-10-10)
 
-**Back of the Envelope v2** is playable (`daily-math/back-of-the-envelope.html` in the Project, published as an artifact):
+**Molver** (formerly Back of the Envelope) is live at https://daily-math.dongfeng2015.workers.dev:
 
 - Loads `puzzles.json`: **2026-10-05 → 2027-10-31, 392 days, 2,072 problems, 56 Saturday Sevens, 107 bonus days, 60 practice sets.** If a date is past the end of the file, it reuses an earlier day on the same weekday so the site never goes blank.
 - Weekdays and Sundays: 5 problems (Warm-up → Everyday → Two-step → Tricky → Stretch). Saturdays: 7 (tiers 1, 2, 3, 3, 4, 4, 5). Bonus: about 30% of non-Saturday days, chosen at random; it's offered after the main set, doesn't count toward the score, and adds a ⭐ to the share.
 - Two tries per problem (decided 2026-10-12). A first-try solve shares as 🟩, a second-try solve as 🟨 (still counts toward the score), a miss as 🟥. After the second miss the player sees the answer; the worked solution stays sealed until the next day. Solutions open the next day: "Yesterday's solutions" on the start screen, with a date picker back through the archive. Practice sets show answers immediately.
-- Share block shows a Wordle-style result (`Back of the Envelope No. 6 · Saturday Seven` / `🟩🟥🟩🟩🟩🟩🟩` / `6/7 in 7:42`) with **Text it** (opens an SMS with the result pre-filled), **Share…** (the phone's share sheet, where supported) and **Copy**.
+- Share block shows a Wordle-style result (`Molver No. 6 · Saturday Seven` / `🟩🟥🟩🟩🟩🟩🟩` / `6/7 in 7:42`) with **Text it** (opens an SMS with the result pre-filled), **Share…** (the phone's share sheet, where supported) and **Copy**.
 - Timer runs only while a problem is open, and pauses when the tab is hidden. Streak, practice mode, scratch pad and dark mode carry over from v1.
 - No accounts. Progress lives in the browser.
 
@@ -150,7 +150,7 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 ## 9. Owner decisions
 
 1. ~~Set size~~ — **decided 2026-10-10:** 5 problems a day, 7 on Saturdays, random bonus puzzle on ~30% of other days.
-2. ~~Name~~ — **decided 2026-10-12:** keep "Back of the Envelope" (after "back-of-the-envelope calculation": quick math on a scrap of paper). Idea parked: an occasional Fermi-style "estimate it" bonus that accepts answers within 10%.
+2. ~~Name~~ — **decided 2026-10-12:** **Molver** (mole + solver), with an original mole mascot. Domain: **molver.net** (molver.com has been held by someone else since 2009). Replaced "Back of the Envelope": the user wanted a short, Wordle-style name. Parked idea from the old name: an occasional Fermi-style "estimate it" bonus that accepts answers within 10%.
 3. ~~Hosting~~ — **decided 2026-10-12:** Cloudflare Workers (static assets) deployed from GitHub. Chosen for free static hosting with commercial use allowed and a path to server-checked answers (Workers), leaderboards (D1) and live battles (Durable Objects) on one platform.
 4. **Domain.**
 5. **Analytics** vendor (privacy-friendly, no cookies preferred).
@@ -166,6 +166,10 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 ## 10. Completion ledger
 
 *Newest first.*
+
+**2026-10-12 · Renamed to Molver**
+- Completed: site, share text, link preview, icon and docs renamed; original mole mascot (header; happy or calm next to the final score); loading and wax-seal copy updated. Saved progress and streaks are kept (storage keys unchanged).
+- Next: attach molver.net in Cloudflare, then point `CONFIG.shareUrl` and `og:url` at it.
 
 **2026-10-12 · Two tries per problem**
 - Completed: two tries per problem (daily, bonus, practice); answer shown after the second miss; 🟨 for second-try solves in the share grid; a pending first try survives a reload.
@@ -193,4 +197,4 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 
 ## Summary
 
-Back of the Envelope is a once-a-day set of ACT/SAT-style word problems (five on weekdays, seven on Saturdays, sometimes a bonus puzzle), typed answers, timed, streaked and shared by text like early Wordle. As of 2026-10-10 the whole year through Oct 2027 is pre-built and checked, and solutions stay sealed until the next day so people talk it over. Next: put it in a repo with CI, pick hosting and a domain, grow the template library, and calibrate difficulty with real players before accounts, leaderboards and battles.
+Molver is a once-a-day set of ACT/SAT-style word problems (five on weekdays, seven on Saturdays, sometimes a bonus puzzle), typed answers, timed, streaked and shared by text like early Wordle. As of 2026-10-10 the whole year through Oct 2027 is pre-built and checked, and solutions stay sealed until the next day so people talk it over. Next: put it in a repo with CI, pick hosting and a domain, grow the template library, and calibrate difficulty with real players before accounts, leaderboards and battles.
