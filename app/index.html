@@ -8,183 +8,184 @@
 <meta property="og:description" content="Five real-world math problems a day. Can you beat my score?">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://molver.net/">
-<meta name="theme-color" content="#E8ECF1" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#10141B" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#D3DCD4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111714" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Ccircle cx=%2232%22 cy=%2234%22 r=%2227%22 fill=%22%236E5240%22/%3E%3Ccircle cx=%2223%22 cy=%2229%22 r=%228%22 fill=%22%23fff%22 fill-opacity=%22.2%22 stroke=%22%2322180F%22 stroke-width=%223%22/%3E%3Ccircle cx=%2241%22 cy=%2229%22 r=%228%22 fill=%22%23fff%22 fill-opacity=%22.2%22 stroke=%22%2322180F%22 stroke-width=%223%22/%3E%3Cpath d=%22M31 29h2%22 stroke=%22%2322180F%22 stroke-width=%223%22/%3E%3Ccircle cx=%2223%22 cy=%2229%22 r=%222.6%22 fill=%22%2322180F%22/%3E%3Ccircle cx=%2241%22 cy=%2229%22 r=%222.6%22 fill=%22%2322180F%22/%3E%3Cellipse cx=%2232%22 cy=%2244%22 rx=%227%22 ry=%225%22 fill=%22%23EF8FA1%22/%3E%3C/svg%3E">
 <title>Molver</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Cabin+Sketch:wght@700&family=Patrick+Hand&display=swap">
 <style>
-/* Layout: one narrow column like a letter. Airmail-striped envelope card, a postmark for the date, stamps for progress,
-   graph-paper scratch pad under each problem, a sealed flap for solutions that open tomorrow. */
+/* Layout: a framed classroom chalkboard hung on a wall. Brand and the date are chalked across the top of the board,
+   the problem fills the middle, and a wooden chalk tray runs along the bottom where Molver the mole sits.
+   Colored chalk marks state: yellow = now / act, green = right, pink = missed, blue = bonus. */
 :root{
-  --bg:#E8ECF1; --paper:#FFFFFF; --ink:#1B2230; --muted:#5B6576; --line:#D2D9E3; --grid:#E4E9F0;
-  --blue:#1F3FA6; --on-blue:#FFFFFF; --red:#C8372D; --gold:#9A6A00; --gold-bg:#FBF1D6; --amber:#8A6400; --amber-bg:#FFF3C4;
+  --wall:#D3DCD4; --wall-ink:#24302A; --wall-muted:#55635B;
+  --board:#24392F; --board-line:rgba(240,238,228,.2); --board-sink:rgba(0,0,0,.2);
+  --chalk:#F0EEE4; --chalk-dim:rgba(240,238,228,.68);
+  --chalk-yellow:#F3D36B; --chalk-pink:#F4A6B8; --chalk-green:#A9DE9C; --chalk-blue:#9FCBEF; --on-yellow:#1F2E26;
+  --wood:#9B6A3C; --wood-2:#7E522B; --wood-3:#B07C49;
   --mole:#6E5240; --mole-belly:#A58670; --mole-ink:#22180F; --nose:#EF8FA1; --dirt:#9B7A5C;
-  --good:#1D7448; --good-bg:#E2F2E9; --bad:#A12E28; --bad-bg:#FBE6E3;
-  --f-display:'Bricolage Grotesque','Avenir Next','Segoe UI',system-ui,sans-serif;
+  --hand-radius:255px 16px 225px 16px/16px 225px 16px 255px;
+  --f-chalk:'Cabin Sketch','Chalkboard SE','Marker Felt','Comic Sans MS',cursive;
+  --f-hand:'Patrick Hand','Chalkboard SE','Segoe Print','Comic Sans MS',cursive;
   --f-body:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;
-  --f-num:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#10141B; --paper:#192029; --ink:#E6EAF1; --muted:#9AA4B4; --line:#2C3441; --grid:#222A35;
-  --blue:#8FA7FF; --on-blue:#0E1320; --red:#FF7C6F; --gold:#F2C14E; --gold-bg:#33290F; --amber:#F2C94C; --amber-bg:#352C0B;
-  --mole:#8C6A54; --mole-belly:#B8977F; --mole-ink:#1B130D; --nose:#F29AAB; --dirt:#6A5240;
-  --good:#5CCB8F; --good-bg:#142E20; --bad:#FF8C80; --bad-bg:#3A1C1A; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#10141B; --paper:#192029; --ink:#E6EAF1; --muted:#9AA4B4; --line:#2C3441; --grid:#222A35;
-  --blue:#8FA7FF; --on-blue:#0E1320; --red:#FF7C6F; --gold:#F2C14E; --gold-bg:#33290F; --amber:#F2C94C; --amber-bg:#352C0B;
-  --mole:#8C6A54; --mole-belly:#B8977F; --mole-ink:#1B130D; --nose:#F29AAB; --dirt:#6A5240;
-  --good:#5CCB8F; --good-bg:#142E20; --bad:#FF8C80; --bad-bg:#3A1C1A; color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--wall:#111714; --wall-ink:#DCE4DE; --wall-muted:#93A39A; color-scheme:dark}}
+:root[data-theme="dark"]{--wall:#111714; --wall-ink:#DCE4DE; --wall-muted:#93A39A; color-scheme:dark}
 
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--bg)}
-body{margin:0}
+html{-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--wall)}
+body{margin:0;background:var(--wall);color:var(--wall-ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
 img{max-width:100%}
 [hidden]{display:none!important}
-
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
-.wrap{max-width:680px;margin:0 auto;padding-inline:16px;padding-block:28px 56px;display:flex;flex-direction:column;gap:20px}
-
-header{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brandrow{display:flex;align-items:center;gap:12px}
-.mascot{flex:none;width:clamp(52px,12vw,68px);display:block}
-.mascot svg,.mole-sm svg{display:block;width:100%;height:auto}
-.mole-sm{flex:none;width:72px}
-.brand h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.7rem,6vw,2.4rem);line-height:1;letter-spacing:-.02em;margin:0;text-wrap:balance}
-.brand p{margin:.4rem 0 0;color:var(--muted);font-size:.95rem}
-.postmark{flex:none;width:96px;height:96px;border-radius:50%;border:2px solid var(--blue);color:var(--blue);
-  display:grid;place-content:center;text-align:center;transform:rotate(-9deg);font-family:var(--f-num);line-height:1.05;
-  box-shadow:inset 0 0 0 4px var(--bg),inset 0 0 0 5px var(--blue)}
-.postmark .lbl{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase}
-.postmark .no{font-family:var(--f-display);font-weight:800;font-size:1.7rem;margin:.1rem 0}
-
-.envelope{background:var(--paper);border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.envelope::before{content:"";display:block;height:10px;
-  background:repeating-linear-gradient(-45deg,var(--red) 0 14px,var(--paper) 14px 22px,var(--blue) 22px 36px,var(--paper) 36px 44px)}
-.inner{padding:22px clamp(16px,4vw,32px) 28px;display:flex;flex-direction:column;gap:18px}
-
-.eyebrow{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
-h2{font-family:var(--f-display);font-weight:800;font-size:1.6rem;line-height:1.1;margin:0;letter-spacing:-.01em;text-wrap:balance}
-h3{font-family:var(--f-display);font-weight:800;font-size:1.15rem;margin:0}
 p{margin:0}
-.muted{color:var(--muted)}
-.stack{display:flex;flex-direction:column;gap:10px}
+.wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:24px 48px;display:flex;flex-direction:column;gap:16px}
 
-.lineup{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.lineup li{display:grid;grid-template-columns:2rem 6.5rem 1fr;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line)}
-.lineup .n{font-family:var(--f-num);color:var(--blue);font-weight:600}
-.lineup .tier{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.lineup li.bonus .n{color:var(--gold)}
+/* frame + board */
+.frame{position:relative;border-radius:10px;padding:12px 12px 0;color-scheme:dark;
+  background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(0,0,0,.14)),
+    repeating-linear-gradient(91deg,var(--wood) 0 7px,var(--wood-3) 7px 9px,var(--wood) 9px 18px,var(--wood-2) 18px 20px);
+  box-shadow:0 16px 36px rgba(15,25,20,.3)}
+.board{position:relative;border-radius:4px;color:var(--chalk);background-color:var(--board);
+  background-image:radial-gradient(ellipse 55% 35% at 22% 18%,rgba(255,255,255,.055),transparent 70%),
+    radial-gradient(ellipse 45% 30% at 78% 72%,rgba(255,255,255,.045),transparent 70%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),inset 0 0 44px rgba(0,0,0,.38);
+  padding:20px clamp(16px,4vw,34px) 76px;display:flex;flex-direction:column;gap:20px}
+.boardhead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:14px;border-bottom:2px solid var(--board-line)}
+.brand h1{font-family:var(--f-chalk);font-weight:700;font-size:clamp(2.3rem,9vw,3.1rem);line-height:.95;margin:0;letter-spacing:.01em;text-shadow:0 0 1px rgba(240,238,228,.55)}
+.brand p{font-family:var(--f-hand);font-size:1.12rem;line-height:1.3;color:var(--chalk-dim);margin-top:.35rem;max-width:30ch}
+.postmark{flex:none;font-family:var(--f-hand);color:var(--chalk-yellow);text-align:right;line-height:1.1;transform:rotate(-2deg);padding-top:4px}
+.postmark .no{display:block;font-family:var(--f-chalk);font-weight:700;font-size:1.8rem}
+.postmark .lbl{display:block;font-size:1.08rem}
+.inner{display:flex;flex-direction:column;gap:18px;min-width:0}
 
+/* chalk tray + mole */
+.tray{position:relative;height:20px;margin:0 -12px;border-radius:0 0 10px 10px;
+  background:linear-gradient(180deg,var(--wood-3),var(--wood-2) 70%);box-shadow:inset 0 4px 4px rgba(0,0,0,.28)}
+.stick{position:absolute;bottom:10px;height:8px;border-radius:3px 4px 4px 3px;box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.stick.w{left:30px;width:36px;background:var(--chalk)}
+.stick.y{left:76px;width:22px;background:var(--chalk-yellow)}
+.stick.p{left:106px;width:15px;background:var(--chalk-pink)}
+.eraser{position:absolute;bottom:10px;left:138px;width:54px;height:15px;border-radius:3px;background:linear-gradient(180deg,#5B4636 0 52%,#D8D2C2 52%)}
+.mascot{position:absolute;right:20px;bottom:11px;width:clamp(60px,13vw,78px);display:block}
+.mascot svg{display:block;width:100%;height:auto}
+
+/* type */
+.eyebrow{font-family:var(--f-hand);font-size:1.12rem;line-height:1.3;color:var(--chalk-dim)}
+h2{font-family:var(--f-chalk);font-weight:700;font-size:clamp(1.8rem,6vw,2.2rem);line-height:1.05;margin:0;text-wrap:balance}
+h3{font-family:var(--f-chalk);font-weight:700;font-size:1.35rem;margin:0}
+.muted{color:var(--chalk-dim)}
+.stack{display:flex;flex-direction:column;gap:8px}
+
+.lineup{list-style:none;margin:0;padding:0;border-top:2px solid var(--board-line)}
+.lineup li{display:grid;grid-template-columns:2rem 6.5rem 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--board-line)}
+.lineup .n{font-family:var(--f-chalk);font-weight:700;font-size:1.25rem;color:var(--chalk-yellow)}
+.lineup .tier{font-family:var(--f-hand);font-size:1.12rem;color:var(--chalk-dim)}
+.lineup li.bonus .n{color:var(--chalk-blue)}
+
+/* buttons */
 .btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 button,.btn{font:inherit;cursor:pointer}
-.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:6px;padding:12px 20px;font-weight:700;background:var(--blue);color:var(--on-blue);text-decoration:none}
-.btn:hover{filter:brightness(1.08)}
-.btn.ghost{background:transparent;color:var(--blue);border:1.5px solid var(--line)}
-.btn.ghost:hover{border-color:var(--blue)}
-.btn.small{padding:6px 12px;font-size:.85rem}
-.btn[disabled]{opacity:.45;cursor:default;filter:none}
-:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--chalk-yellow);border-radius:var(--hand-radius);
+  padding:9px 20px;font-family:var(--f-hand);font-size:1.22rem;line-height:1.2;background:var(--chalk-yellow);color:var(--on-yellow);text-decoration:none}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent;color:var(--chalk);border-color:var(--chalk-dim)}
+.btn.ghost:hover{border-color:var(--chalk)}
+.btn.small{padding:3px 12px;font-size:1.05rem}
+.btn[disabled]{opacity:.4;cursor:default;filter:none}
+:focus-visible{outline:3px solid var(--chalk-yellow);outline-offset:3px}
 
+/* progress marks */
 .stamps{display:flex;gap:8px;flex-wrap:wrap}
-.stamp{width:30px;height:34px;border:2px dotted var(--line);border-radius:3px;display:grid;place-items:center;
-  font-family:var(--f-num);font-size:.8rem;color:var(--muted);flex:none}
-.stamp.cur{border:2px solid var(--blue);color:var(--blue)}
-.stamp.ok{border:2px solid var(--good);background:var(--good-bg);color:var(--good)}
-.stamp.no{border:2px solid var(--bad);background:var(--bad-bg);color:var(--bad)}
-.stamp.two{border:2px solid var(--amber);background:var(--amber-bg);color:var(--amber)}
-.stamp.star{border:2px solid var(--blue);background:var(--paper);color:var(--blue)}
+.stamp{width:32px;height:32px;border:2px dashed var(--board-line);border-radius:var(--hand-radius);display:grid;place-items:center;
+  font-family:var(--f-hand);font-size:1.15rem;color:var(--chalk-dim);flex:none}
+.stamp.cur{border:2px solid var(--chalk-yellow);color:var(--chalk-yellow)}
+.stamp.ok,.stamp.two{border:2px solid var(--chalk-green);color:var(--chalk-green)}
+.stamp.no{border:2px solid var(--chalk-pink);color:var(--chalk-pink)}
+.stamp.star{border:2px solid var(--chalk-blue);color:var(--chalk-blue)}
 
 .meta{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.timer{font-family:var(--f-num);font-variant-numeric:tabular-nums;font-size:1.05rem;color:var(--muted)}
-.question{font-size:clamp(1.08rem,3.4vw,1.22rem);line-height:1.55;max-width:62ch}
+.timer{font-family:var(--f-hand);font-variant-numeric:tabular-nums;font-size:1.3rem;color:var(--chalk-dim)}
+.question{font-size:clamp(1.08rem,3.4vw,1.22rem);line-height:1.6;max-width:62ch}
 .ask{font-size:clamp(1.08rem,3.4vw,1.22rem);line-height:1.5;font-weight:700;max-width:62ch}
 
 .tbl{overflow-x:auto;max-width:100%}
 .tbl table{border-collapse:collapse;font-variant-numeric:tabular-nums;min-width:min(100%,320px)}
-.tbl th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 14px 6px 0;border-bottom:2px solid var(--line)}
-.tbl td{font-family:var(--f-num);font-size:.95rem;padding:7px 14px 7px 0;border-bottom:1px solid var(--line)}
-.tbl td:first-child{font-family:var(--f-body)}
+.tbl th{font-family:var(--f-hand);font-weight:400;font-size:1.08rem;color:var(--chalk-dim);text-align:left;padding:4px 16px 4px 0;border-bottom:2px solid var(--board-line)}
+.tbl td{font-size:1rem;padding:6px 16px 6px 0;border-bottom:1px solid var(--board-line)}
 
+/* answer */
 form.answer{display:flex;flex-direction:column;gap:6px}
-form.answer label{font-weight:700;font-size:.9rem}
-.field{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
-.inputbox{flex:1 1 220px;min-width:0;display:flex;align-items:center;gap:6px;border:2px solid var(--line);border-radius:6px;padding:0 12px;background:var(--paper)}
-.inputbox:focus-within{border-color:var(--blue)}
-.inputbox input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font-family:var(--f-num);font-size:1.4rem;padding:10px 0;font-variant-numeric:tabular-nums}
-.affix{font-family:var(--f-num);color:var(--muted);font-size:1.05rem;white-space:nowrap}
-.hint{font-size:.85rem;color:var(--muted)}
-.err{font-size:.9rem;color:var(--bad);min-height:1.2em}
+form.answer label{font-family:var(--f-hand);font-size:1.15rem;color:var(--chalk-dim)}
+.field{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch}
+.inputbox{flex:1 1 220px;min-width:0;display:flex;align-items:center;gap:6px;padding:0 6px;background:var(--board-sink);border-bottom:2px solid var(--chalk-dim)}
+.inputbox:focus-within{border-color:var(--chalk-yellow)}
+.inputbox input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--chalk);font-family:var(--f-body);font-size:1.45rem;padding:8px 0;font-variant-numeric:tabular-nums}
+.affix{font-family:var(--f-hand);color:var(--chalk-dim);font-size:1.2rem;white-space:nowrap}
+.hint{font-family:var(--f-hand);font-size:1.02rem;color:var(--chalk-dim)}
+.err{font-family:var(--f-hand);font-size:1.08rem;color:var(--chalk-pink);min-height:1.2em}
 
-.result{border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
-.result.ok{background:var(--good-bg)}
-.result.no{background:var(--bad-bg)}
-.result .verdict{font-weight:700}
-.result.ok .verdict{color:var(--good)}
-.result.no .verdict{color:var(--bad)}
-.result.retry{background:var(--amber-bg);margin-bottom:12px}
-.result.retry .verdict{color:var(--amber)}
-.result.two{background:var(--amber-bg)}
-.result.two .verdict{color:var(--amber)}
-.steps{margin:0;padding-left:1.3rem;display:flex;flex-direction:column;gap:4px}
-.steps li{padding-left:2px}
+.result{border:2px solid var(--board-line);border-radius:var(--hand-radius);padding:12px 16px;display:flex;flex-direction:column;gap:6px;background:var(--board-sink)}
+.result .verdict{font-family:var(--f-hand);font-size:1.3rem;line-height:1.3}
+.result.ok,.result.two{border-color:var(--chalk-green)} .result.ok .verdict,.result.two .verdict{color:var(--chalk-green)}
+.result.no{border-color:var(--chalk-pink)} .result.no .verdict{color:var(--chalk-pink)}
+.result.retry{border-color:var(--chalk-yellow);margin-bottom:12px} .result.retry .verdict{color:var(--chalk-yellow)}
+.steps{margin:0;padding-left:1.4rem;display:flex;flex-direction:column;gap:2px;font-family:var(--f-hand);font-size:1.15rem;line-height:1.4}
 
+/* work area */
 .pad{display:flex;flex-direction:column;gap:6px}
 .padhead{display:flex;justify-content:space-between;align-items:center}
-.padbox{height:220px;border:1px solid var(--line);border-radius:6px;overflow:hidden;
-  background-color:var(--paper);
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-  background-size:22px 22px}
-.padbox canvas{display:block;width:100%;height:100%;touch-action:none;color:var(--blue);cursor:crosshair}
+.padbox{height:220px;border:2px dashed var(--board-line);border-radius:6px;overflow:hidden;background:rgba(0,0,0,.08)}
+.padbox canvas{display:block;width:100%;height:100%;touch-action:none;color:var(--chalk);cursor:crosshair}
 
+/* results */
 .score{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end}
-.score .big{font-family:var(--f-display);font-weight:800;font-size:3.4rem;line-height:.9}
-.score .cell{display:flex;flex-direction:column;gap:4px}
-.score .val{font-family:var(--f-num);font-size:1.4rem;font-variant-numeric:tabular-nums}
-
+.score .big{font-family:var(--f-chalk);font-weight:700;font-size:3.6rem;line-height:.9}
+.score .cell{display:flex;flex-direction:column;gap:2px}
+.score .val{font-family:var(--f-hand);font-size:1.6rem;font-variant-numeric:tabular-nums}
 .review{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.review > li{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:14px 0;border-top:1px solid var(--line)}
+.review > li{display:grid;grid-template-columns:36px 1fr;gap:12px;padding:14px 0;border-top:1px solid var(--board-line)}
 .review .body{min-width:0;display:flex;flex-direction:column;gap:8px}
-.review .ans{font-family:var(--f-num);font-size:.92rem}
-.review .key{font-family:var(--f-num);font-weight:600;color:var(--good)}
-details summary{cursor:pointer;color:var(--blue);font-weight:700;font-size:.92rem}
+.review .ans{font-size:.95rem;color:var(--chalk-dim)}
+.review .key{font-weight:700;color:var(--chalk-green)}
+details summary{cursor:pointer;font-family:var(--f-hand);font-size:1.15rem;color:var(--chalk-yellow)}
 details .steps{margin-top:6px}
-
-.sealed{border:1.5px dashed var(--line);border-radius:6px;padding:14px 16px;display:flex;gap:14px;align-items:center}
-.wax{flex:none;width:44px;height:44px;border-radius:50%;background:var(--red);color:var(--paper);display:grid;place-items:center;
-  font-family:var(--f-display);font-weight:800;font-size:1.1rem;box-shadow:inset 0 0 0 3px color-mix(in srgb,var(--red) 70%,var(--paper))}
-.sealed .txt{min-width:0;display:flex;flex-direction:column;gap:2px}
-.sealed strong{font-family:var(--f-display);font-size:1.05rem}
-
-.bonuscard{border:1.5px solid var(--gold);background:var(--gold-bg);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
-.bonuscard .eyebrow{color:var(--gold)}
-
+.sealed{border:2px dashed var(--chalk-yellow);border-radius:var(--hand-radius);padding:12px 16px;display:flex;flex-direction:column;gap:2px}
+.sealed strong{font-family:var(--f-chalk);font-size:1.25rem;color:var(--chalk-yellow)}
+.sealed .txt{display:flex;flex-direction:column;gap:2px}
+.bonuscard{border:2px dashed var(--chalk-blue);border-radius:var(--hand-radius);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.bonuscard .eyebrow{color:var(--chalk-blue)}
 .share{display:flex;flex-direction:column;gap:10px}
-.share pre{margin:0;font-family:var(--f-num);font-size:.95rem;background:var(--bg);border-radius:6px;padding:12px;white-space:pre-wrap;user-select:all;overflow-x:auto}
-.tag{display:inline-block;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--red);border:1.5px solid var(--red);border-radius:4px;padding:1px 7px}
-.tag.gold{color:var(--gold);border-color:var(--gold)}
+.share pre{margin:0;font-family:var(--f-body);font-size:1rem;line-height:1.5;background:var(--board-sink);border-radius:6px;padding:12px 14px;white-space:pre-wrap;user-select:all;overflow-x:auto;color:var(--chalk)}
+.tag{display:inline-block;font-family:var(--f-hand);font-size:1.05rem;color:var(--chalk-pink);border:2px solid var(--chalk-pink);border-radius:var(--hand-radius);padding:0 10px}
+.tag.gold{color:var(--chalk-blue);border-color:var(--chalk-blue)}
 .navrow{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-footer{font-size:.85rem;color:var(--muted);text-align:center}
-.loading{min-height:240px;display:grid;place-content:center;text-align:center;gap:8px;color:var(--muted)}
-@media (max-width:420px){.lineup li{grid-template-columns:1.6rem 1fr}.lineup .tier,.lineup .topic{grid-column:2}.postmark{width:80px;height:80px}.postmark .no{font-size:1.4rem}}
+.loading{min-height:240px;display:grid;place-content:center;text-align:center;gap:8px;color:var(--chalk-dim)}
+footer{font-family:var(--f-hand);font-size:1.05rem;color:var(--wall-muted);text-align:center}
+@media (max-width:440px){.lineup li{grid-template-columns:1.8rem 1fr}.lineup .tier,.lineup .topic{grid-column:2}
+  .board{padding-bottom:70px}.eraser{display:none}}
 @media (prefers-reduced-motion:no-preference){.result{animation:rise .25s ease-out}@keyframes rise{from{transform:translateY(4px)}to{transform:none}}}
 </style>
 </head>
 <body>
 
 <div class="wrap">
-  <header>
-    <div class="brand">
-      <div class="brandrow"><span class="mascot" id="mascot"></span><h1>Molver</h1></div>
-      <p id="tagline">Five real-world problems a day. Seven on Saturdays.</p>
+  <div class="frame">
+    <div class="board">
+      <header class="boardhead">
+        <div class="brand">
+          <h1>Molver</h1>
+          <p id="tagline">Five real-world problems a day. Seven on Saturdays.</p>
+        </div>
+        <div class="postmark" id="postmark" aria-label="Puzzle number and date"></div>
+      </header>
+      <main class="inner" id="view">
+        <div class="loading"><h3>Digging up today's problems…</h3><p>Loading the puzzle file.</p></div>
+      </main>
     </div>
-    <div class="postmark" id="postmark" aria-label="Set number and date"><span class="lbl">Daily</span><span class="no">·</span><span class="lbl">Math</span></div>
-  </header>
-  <main class="envelope"><div class="inner" id="view">
-    <div class="loading"><h3>Digging up today's problems…</h3><p>Loading the puzzle file.</p></div>
-  </div></main>
+    <div class="tray" aria-hidden="true"><span class="stick w"></span><span class="stick y"></span><span class="stick p"></span><span class="eraser"></span><span class="mascot" id="mascot"></span></div>
+  </div>
   <footer>A new set every day at midnight your time. Everyone gets the same problems.</footer>
 </div>
 
@@ -215,26 +216,27 @@ function untilMidnight(){const n=new Date(),m=new Date(n.getFullYear(),n.getMont
   const h=Math.floor(mins/60),mm=mins%60;return h?`${h}h ${mm}m`:`${mm}m`}
 
 /* ---------- mascot ---------- */
-// Molver the mole: original character. mood: 'calm' | 'happy'
+// Molver the mole: original character. mood: 'calm' | 'happy' | 'oops'
 function moleSVG(mood){
   const k='var(--mole-ink)';
   const eyes=mood==='happy'
     ?`<path d="M36.5 47.5q3.5-4.5 7 0M56.5 47.5q3.5-4.5 7 0" fill="none" stroke="${k}" stroke-width="2.4" stroke-linecap="round"/>`
     :`<circle cx="40" cy="46" r="3.1" fill="${k}"/><circle cx="60" cy="46" r="3.1" fill="${k}"/>`;
-  const mouth=mood==='happy'?`<path d="M45 66q5 4.5 10 0" fill="none" stroke="${k}" stroke-width="2" stroke-linecap="round"/>`:'';
-  return `<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-    <path d="M17 94C17 42 33 17 50 17S83 42 83 94Z" fill="var(--mole)"/>
-    <ellipse cx="50" cy="78" rx="18" ry="15" fill="var(--mole-belly)"/>
+  const mouth=mood==='happy'?`<path d="M45 66q5 4.5 10 0" fill="none" stroke="${k}" stroke-width="2" stroke-linecap="round"/>`
+    :mood==='oops'?`<ellipse cx="50" cy="67.5" rx="2.4" ry="2.9" fill="${k}"/><path d="M33 34l11-2.5M67 34l-11-2.5" stroke="${k}" stroke-width="2" stroke-linecap="round"/>`:'';
+  return `<svg viewBox="0 0 100 96" aria-hidden="true" focusable="false">
+    <path d="M17 96C17 42 33 17 50 17S83 42 83 96Z" fill="var(--mole)"/>
+    <ellipse cx="50" cy="79" rx="18" ry="15" fill="var(--mole-belly)"/>
     <circle cx="40" cy="46" r="8.6" fill="#fff" fill-opacity=".16" stroke="${k}" stroke-width="2.4"/>
     <circle cx="60" cy="46" r="8.6" fill="#fff" fill-opacity=".16" stroke="${k}" stroke-width="2.4"/>
     <path d="M48.6 46h2.8" stroke="${k}" stroke-width="2.4"/>${eyes}
     <ellipse cx="50" cy="58.5" rx="6.6" ry="4.9" fill="var(--nose)"/>${mouth}
     <path d="M38 60l-13-2.5M38 63.5l-13 2M62 60l13-2.5M62 63.5l13 2" stroke="${k}" stroke-width="1.3" stroke-linecap="round" opacity=".55"/>
-    <path d="M1 99C8 86 22 82 32 90C41 84 59 84 68 90C78 82 92 86 99 99Z" fill="var(--dirt)"/>
-    <ellipse cx="33" cy="89" rx="10" ry="6.5" fill="var(--nose)"/><ellipse cx="67" cy="89" rx="10" ry="6.5" fill="var(--nose)"/>
-    <path d="M26 87.5v3.5M30 86.5v4M34 86.5v4M38 87.5v3.5M62 87.5v3.5M66 86.5v4M70 86.5v4M74 87.5v3.5" stroke="${k}" stroke-width="1.2" stroke-linecap="round" opacity=".45"/>
+    <ellipse cx="31" cy="90" rx="11" ry="6.5" fill="var(--nose)"/><ellipse cx="69" cy="90" rx="11" ry="6.5" fill="var(--nose)"/>
+    <path d="M24 88.5v3.5M28 87.5v4M32 87.5v4M36 88.5v3.5M64 88.5v3.5M68 87.5v4M72 87.5v4M76 88.5v3.5" stroke="${k}" stroke-width="1.2" stroke-linecap="round" opacity=".45"/>
   </svg>`}
-document.getElementById('mascot').innerHTML=moleSVG('calm');
+function setMole(mood){const el=document.getElementById('mascot');if(el)el.innerHTML=moleSVG(mood)}
+setMole('calm');
 
 /* ---------- answers ---------- */
 function parseAnswer(raw){
@@ -292,11 +294,11 @@ function solutionsOpen(date){
   return CONFIG.unlock==='after-share'&&!!(r&&r.done&&r.shared);
 }
 
+const boardDate=(date,no)=>`<span class="no">No. ${no}</span><span class="lbl">${esc(new Date(utc(date)).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',timeZone:'UTC'}))}</span>`;
 function renderPostmark(){
   const pm=document.getElementById('postmark');
-  if(S.mode==='practice'){pm.innerHTML=`<span class="lbl">Practice</span><span class="no">P${S.day.no}</span><span class="lbl">Unscored</span>`;return}
-  const dt=new Date(utc(S.date)),mon=dt.toLocaleString('en-US',{month:'short',timeZone:'UTC'}).toUpperCase();
-  pm.innerHTML=`<span class="lbl">No.</span><span class="no">${S.day.no}</span><span class="lbl">${mon} ${pad2(dt.getUTCDate())} ${dt.getUTCFullYear()}</span>`;
+  if(S.mode==='practice'){pm.innerHTML=`<span class="no">Practice</span><span class="lbl">set ${S.day.no}, unscored</span>`;return}
+  pm.innerHTML=boardDate(S.date,S.day.no);
 }
 function stampsHTML(){const N=S.day.problems.length;
   let h=S.day.problems.map((p,i)=>{const a=S.rec.answers[i];
@@ -309,17 +311,17 @@ function tableHTML(t){if(!t)return'';
   return `<div class="tbl"><table><thead><tr>${t.headers.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
 const stepsHTML=p=>`<ol class="steps">${p.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>`;
 const sealedHTML=()=>CONFIG.unlock==='after-share'
-  ?`<div class="sealed"><span class="wax" aria-hidden="true">M</span><div class="txt"><strong>Worked solutions are sealed</strong><span class="muted">Send your result to someone to open how today's problems are solved.</span></div></div>`
-  :`<div class="sealed"><span class="wax" aria-hidden="true">M</span><div class="txt"><strong>Worked solutions open tomorrow</strong><span class="muted">In <span id="countdown">${untilMidnight()}</span>. Until then, compare notes with whoever you send your result to.</span></div></div>`;
+  ?`<div class="sealed"><div class="txt"><strong>Worked solutions are sealed</strong><span class="muted">Send your result to someone to open how today's problems are solved.</span></div></div>`
+  :`<div class="sealed"><div class="txt"><strong>Worked solutions open tomorrow</strong><span class="muted">In <span id="countdown">${untilMidnight()}</span>. Until then, compare notes with whoever you send your result to.</span></div></div>`;
 function tickCountdown(){clearInterval(countId);countId=setInterval(()=>{const c=document.getElementById('countdown');if(c)c.textContent=untilMidnight();else clearInterval(countId);
   if(S&&S.mode==='daily'&&S.date!==today()){clearInterval(countId);loadDaily();route()}},30000)}
 
 /* ---------- views ---------- */
-function showIntro(){renderPostmark();
+function showIntro(){renderPostmark();setMole('calm');
   const day=S.day,done=S.rec.answers.length,N=day.problems.length,yest=addDays(S.date,-1),sat=isSat(day);
   view.innerHTML=`
     <div class="stack">
-      <div class="eyebrow">${S.mode==='practice'?'<span class="tag">Practice set</span>':esc(longDate(S.date))}</div>
+      ${S.mode==='practice'?'<div><span class="tag">Practice set</span></div>':''}
       <h2>${S.mode==='practice'?'A practice set of five':setName(day)}</h2>
       ${sat&&S.mode==='daily'?'<p class="muted">Saturdays run seven problems instead of five, with an extra two-step and an extra tricky one. Budget about eight minutes.</p>':''}
     </div>
@@ -343,6 +345,7 @@ const cap=s=>s[0].toUpperCase()+s.slice(1);
 function bind(id,fn){const el=document.getElementById(id);if(el)el.onclick=fn}
 
 function showProblem(isBonus){
+  setMole('calm');
   const day=S.day,N=day.problems.length,i=S.rec.answers.length,p=isBonus?day.bonus:day.problems[i];
   const pre=p.answer.kind==='money'?'$':'',post=p.answer.kind==='pct'?'%':(p.unit||'');
   view.innerHTML=`
@@ -364,8 +367,8 @@ function showProblem(isBonus){
       </form>
     </div>
     <div class="pad">
-      <div class="padhead"><span class="eyebrow">Scratch pad</span><button class="btn ghost small" id="clear" type="button">Clear</button></div>
-      <div class="padbox"><canvas id="canvas" aria-label="Scratch pad for working out the problem"></canvas></div>
+      <div class="padhead"><span class="eyebrow">Work it out in chalk</span><button class="btn ghost small" id="clear" type="button">Erase</button></div>
+      <div class="padbox"><canvas id="canvas" aria-label="Chalk area for working out the problem"></canvas></div>
     </div>`;
   pad=setupPad(document.getElementById('canvas'));
   bind('clear',()=>pad.clear());
@@ -380,9 +383,10 @@ function showProblem(isBonus){
     if(Number.isNaN(x)){err.textContent='Enter a number, like 42, 12.50, 3/4 or 1 1/2.';return}
     err.textContent='';
     const ok=isRight(p,x),inputs=(pend?pend.inputs:[]).concat(raw.trim());
-    if(!ok&&inputs.length<MAX_TRIES){pend={slot:slotId,inputs};S.rec.pending=pend;save();showRetry();input.value='';input.focus({preventScroll:true});return}
+    if(!ok&&inputs.length<MAX_TRIES){pend={slot:slotId,inputs};S.rec.pending=pend;save();showRetry();setMole('oops');input.value='';input.focus({preventScroll:true});return}
     S.rec.pending=null;
     const entry={input:raw.trim(),inputs,correct:ok,tries:inputs.length};
+    setMole(ok?'happy':'oops');
     let last=false;
     if(isBonus){S.rec.bonus=entry}
     else{pauseClock();S.rec.answers.push(entry);last=S.rec.answers.length===N;if(last)S.rec.done=true;S.rec.elapsed=base}
@@ -414,10 +418,10 @@ function showSummary(){clearInterval(tickId);renderPostmark();
   const st=practice?null:streak();
   const ratio=n/N,line=ratio===1?'Clean sweep.':ratio>=.8?'Sharp.':ratio>=.6?'Solid work.':ratio>=.4?'A fair day. Tomorrow\'s another dig.':'Tough one. Compare notes and come back tomorrow.';
   const bonusPending=day.bonus&&!S.rec.bonus;
+  setMole(ratio>=.6?'happy':'calm');
   view.innerHTML=`
     <div class="eyebrow">${practice?'<span class="tag">Practice set</span>':`No. ${day.no} complete${isSat(day)?' · Saturday Seven':''}`}</div>
     <div class="score">
-      <span class="mole-sm">${moleSVG(ratio>=.6?'happy':'calm')}</span>
       <div class="cell"><span class="big">${n}/${N}</span></div>
       <div class="cell"><span class="eyebrow">Time</span><span class="val">${fmtTime(S.rec.elapsed)}</span></div>
       ${st!==null?`<div class="cell"><span class="eyebrow">Streak</span><span class="val">${st} day${st===1?'':'s'}</span></div>`:''}
@@ -465,11 +469,11 @@ function reviewItem(p,a,open,label){
       ${open?`<details><summary>Worked solution</summary>${stepsHTML(p)}</details>`:''}
     </div></li>`}
 
-function showSolutions(date){clearInterval(tickId);
+function showSolutions(date){clearInterval(tickId);setMole('calm');
   const day=dayFor(date),rec=store.get(key(date)),open=solutionsOpen(date);
   const prev=addDays(date,-1),next=addDays(date,1);
   const pm=document.getElementById('postmark'),dt=new Date(utc(date));
-  pm.innerHTML=`<span class="lbl">No.</span><span class="no">${day.no}</span><span class="lbl">${dt.toLocaleString('en-US',{month:'short',timeZone:'UTC'}).toUpperCase()} ${pad2(dt.getUTCDate())} ${dt.getUTCFullYear()}</span>`;
+  pm.innerHTML=boardDate(date,day.no);
   view.innerHTML=`
     <div class="stack">
       <div class="eyebrow">${esc(longDate(date))}</div>
@@ -498,7 +502,7 @@ function route(){renderPostmark();
 
 /* ---------- scratch pad ---------- */
 function setupPad(cv){const ctx=cv.getContext('2d');let down=false,last=null;
-  function size(){const r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=2.2}
+  function size(){const r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=3;ctx.globalAlpha=.88}
   const pos=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
   cv.addEventListener('pointerdown',e=>{down=true;try{cv.setPointerCapture(e.pointerId)}catch(_){}last=pos(e);const c=getComputedStyle(cv).color;ctx.strokeStyle=c;ctx.fillStyle=c;ctx.beginPath();ctx.arc(last[0],last[1],1.1,0,Math.PI*2);ctx.fill()});
   cv.addEventListener('pointermove',e=>{if(!down)return;const p=pos(e);ctx.beginPath();ctx.moveTo(last[0],last[1]);ctx.lineTo(p[0],p[1]);ctx.stroke();last=p});

@@ -167,6 +167,10 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 
 *Newest first.*
 
+**2026-10-12 · Chalkboard redesign**
+- Completed: envelope look replaced with a framed classroom chalkboard (slate board, wood frame, chalk tray with chalk and eraser); chalk display face for the name and headings, chalk handwriting for labels, date and worked steps, a highly legible face for the problem text; colored chalk for state (yellow now, green right, pink missed, blue bonus); Molver the mole sits on the chalk tray and reacts (calm, happy on a right answer, "oops" on a miss); chalk work area with Erase.
+- Verification: full play-through test (no errors), phone layout with no sideways scroll, preview with real fonts checked in Chrome.
+
 **2026-10-12 · Renamed to Molver**
 - Completed: site, share text, link preview, icon and docs renamed; original mole mascot (header; happy or calm next to the final score); loading and wax-seal copy updated. Saved progress and streaks are kept (storage keys unchanged).
 - molver.net attached in Cloudflare; share text and `og:url` now use https://molver.net.
