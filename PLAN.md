@@ -1,6 +1,6 @@
 # Daily Math — Project Plan
 
-**Owner:** Dong · **Plan created:** 2026-10-07 · **Last updated:** 2026-10-10 · **Source of truth (from 2026-10-12):** the `daily_math` folder on Dong's Mac (`~/daily_math`). Copies in the Claude Project may lag behind it.
+**Owner:** Dong · **Plan created:** 2026-10-07 · **Last updated:** 2026-10-12 · **Source of truth (from 2026-10-12):** the `daily_math` folder on Dong's Mac (`~/daily_math`). Copies in the Claude Project may lag behind it.
 
 ---
 
@@ -70,8 +70,10 @@ Known gaps:
 - CI: `python3 harness.py templates_ref templates_t12 templates_t34 templates_t5b --seeds 10000` and `python3 build_dataset.py` must pass; a Playwright smoke test plays one weekday, one Saturday and one bonus day (the script used on 2026-10-10 is the starting point).
 - Optional later: port the app to Vite + TypeScript when it grows past one file.
 
-### P1 · Hosting
-- Static hosting (owner decision #3) + domain (#4). Serve `index.html` and `puzzles.json` with `charset=utf-8` (the share emoji depend on it). Set `CONFIG.shareUrl` once there's a domain so shared results link back.
+### P1 · Hosting — ✅ live 2026-10-12
+- Live at **https://daily-math.dongfeng2015.workers.dev** (Cloudflare Workers, static assets from `./app`, config in `wrangler.jsonc`).
+- GitHub repo **dongfeng2015/daily_math** (private) is connected to Cloudflare; every push to `main` deploys.
+- Share text ends with the site link (`CONFIG.shareUrl`). Custom domain (#4) can be attached to the same Cloudflare project later.
 
 ---
 
@@ -136,7 +138,7 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 | A3 | ✅ | 2026-10-10 | Dataset through 2027-10-31 |
 | A4 | 🔶 partly | — | Stats, how-to-play, a11y open |
 | P0 | ⬜ open | — | Repo + CI |
-| P1 | ⬜ blocked on owner #3, #4 | — | |
+| P1 | ✅ live on workers.dev | 2026-10-12 | Custom domain still open (#4) |
 | A5 | ⬜ blocked on owner #5 | — | |
 | B1–B3 | ⬜ deferred | — | No accounts for now |
 | C1–C3 | ⬜ blocked on B2 | — | |
@@ -149,7 +151,7 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 
 1. ~~Set size~~ — **decided 2026-10-10:** 5 problems a day, 7 on Saturdays, random bonus puzzle on ~30% of other days.
 2. **Name.** Keep "Back of the Envelope"?
-3. **Hosting** vendor.
+3. ~~Hosting~~ — **decided 2026-10-12:** Cloudflare Workers (static assets) deployed from GitHub. Chosen for free static hosting with commercial use allowed and a path to server-checked answers (Workers), leaderboards (D1) and live battles (Durable Objects) on one platform.
 4. **Domain.**
 5. **Analytics** vendor (privacy-friendly, no cookies preferred).
 6. **Launch date** — what counts as No. 1. Currently 2026-10-05.
@@ -164,6 +166,11 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 ## 10. Completion ledger
 
 *Newest first.*
+
+**2026-10-12 · Live on Cloudflare**
+- Completed: source of truth moved to `~/daily_math` on Dong's Mac; private GitHub repo `dongfeng2015/daily_math`; Cloudflare Workers deploy from `main`; standalone page head (charset, viewport, link preview, icon); share text now links to the site.
+- Verification: headless-browser play-through of the standalone page served without a charset header; live site checked in Chrome (No. 8 loads, puzzles.json 200, UTF-8).
+- Next: run the one-time `git init`/`git reset origin/main` in `~/daily_math` so the Mac folder tracks the repo; pick a domain.
 
 **2026-10-10 · v2: a year of pre-built puzzles, sealed solutions, SMS share**
 - Completed: Python engine (A1), 71 templates (A2), year scheduler (A3), app v2 with sealed solutions, yesterday's solutions archive, Saturday Seven, bonus puzzles, Text it / Share / Copy, practice pool, timer pause on hidden tab (A0).
