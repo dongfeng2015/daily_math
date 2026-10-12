@@ -25,7 +25,7 @@ The skill being trained is the one the ACT and SAT actually test: reading a few 
 
 ## 2. Where we are (2026-10-10)
 
-**Molver** (formerly Back of the Envelope) is live at https://daily-math.dongfeng2015.workers.dev:
+**Molver** (formerly Back of the Envelope) is live at **https://molver.net** (also https://daily-math.dongfeng2015.workers.dev):
 
 - Loads `puzzles.json`: **2026-10-05 → 2027-10-31, 392 days, 2,072 problems, 56 Saturday Sevens, 107 bonus days, 60 practice sets.** If a date is past the end of the file, it reuses an earlier day on the same weekday so the site never goes blank.
 - Weekdays and Sundays: 5 problems (Warm-up → Everyday → Two-step → Tricky → Stretch). Saturdays: 7 (tiers 1, 2, 3, 3, 4, 4, 5). Bonus: about 30% of non-Saturday days, chosen at random; it's offered after the main set, doesn't count toward the score, and adds a ⭐ to the share.
@@ -152,7 +152,7 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 1. ~~Set size~~ — **decided 2026-10-10:** 5 problems a day, 7 on Saturdays, random bonus puzzle on ~30% of other days.
 2. ~~Name~~ — **decided 2026-10-12:** **Molver** (mole + solver), with an original mole mascot. Domain: **molver.net** (molver.com has been held by someone else since 2009). Replaced "Back of the Envelope": the user wanted a short, Wordle-style name. Parked idea from the old name: an occasional Fermi-style "estimate it" bonus that accepts answers within 10%.
 3. ~~Hosting~~ — **decided 2026-10-12:** Cloudflare Workers (static assets) deployed from GitHub. Chosen for free static hosting with commercial use allowed and a path to server-checked answers (Workers), leaderboards (D1) and live battles (Durable Objects) on one platform.
-4. **Domain.**
+4. ~~Domain~~ — **decided 2026-10-12:** molver.net, attached to the daily-math Worker in Cloudflare.
 5. **Analytics** vendor (privacy-friendly, no cookies preferred).
 6. **Launch date** — what counts as No. 1. Currently 2026-10-05.
 7. **Backend/auth** vendor for B1 (deferred).
@@ -169,7 +169,7 @@ Written before any battle code. Starting point: **challenge a friend (async)**: 
 
 **2026-10-12 · Renamed to Molver**
 - Completed: site, share text, link preview, icon and docs renamed; original mole mascot (header; happy or calm next to the final score); loading and wax-seal copy updated. Saved progress and streaks are kept (storage keys unchanged).
-- Next: attach molver.net in Cloudflare, then point `CONFIG.shareUrl` and `og:url` at it.
+- molver.net attached in Cloudflare; share text and `og:url` now use https://molver.net.
 
 **2026-10-12 · Two tries per problem**
 - Completed: two tries per problem (daily, bonus, practice); answer shown after the second miss; 🟨 for second-try solves in the share grid; a pending first try survives a reload.

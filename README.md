@@ -19,7 +19,7 @@ App settings (top of the script in app/index.html):
   unlock:   'next-day' (default) | 'after-share' | 'immediate'
   shareUrl: added to the share text once the site has a domain
 
-Hosting (Cloudflare Workers, static assets)
+Hosting (Cloudflare Workers, static assets) — live at https://molver.net
   wrangler.jsonc serves ./app as a static site. The GitHub repo is connected to Cloudflare
   (Workers & Pages -> Import a repository), so every push to main deploys automatically.
   Deploy command: npx wrangler deploy      Build command: (none)
